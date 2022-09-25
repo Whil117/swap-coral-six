@@ -10,10 +10,6 @@ import AtomPlayTrack from '../AtomPlayTrack';
 import { AtomText } from '../AtomText';
 import AtomWrapper from '../Atomwrapper';
 
-// type PropsWithTypes<T> = T & {
-//   position: number;
-// };
-
 type AlbumProps = ISong;
 
 const typeTracks = {
@@ -50,7 +46,6 @@ const typeTracks = {
           }
           :hover {
             .hoverPlay {
-              /* margin: 5px 0px 15px 0px; */
               height: max-content;
               opacity: 1;
               transition: all 0.3s ease-in-out;
@@ -61,7 +56,6 @@ const typeTracks = {
           }
         `}
         key={props?.album?.id}
-        // onClick={props?.onPlay}
       >
         <AtomPlayTrack
           {...props?.album}
