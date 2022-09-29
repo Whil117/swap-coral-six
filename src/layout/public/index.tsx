@@ -44,8 +44,16 @@ const PublicLayout: FC = (props) => {
               overflow: auto;
               align-items: flex-start;
               ::-webkit-scrollbar {
-                width: 5px;
+                width: 10px;
               }
+              /* ::-webkit-scrollbar-thumb {
+                  background: #f10000;
+                  border-radius: 4px;
+                }
+                ::-webkit-scrollbar {
+                  width: 10px;
+              } */
+
               ::-webkit-scrollbar-thumb {
                 background: #ccc;
                 border-radius: 4px;
