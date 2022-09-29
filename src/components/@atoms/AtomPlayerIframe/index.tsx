@@ -451,6 +451,13 @@ const AtomPlayerIframe: FC = () => {
           <AtomButton
             backgroundColor="transparent"
             padding="0px"
+            customCSS={css`
+              ${router?.asPath?.includes('/lyric') &&
+              css`
+                border-bottom: 2px solid ${colors?.[0]?.hex};
+                padding-bottom: 10px;
+              `}
+            `}
             onClick={() => {
               router?.asPath?.includes('/lyric')
                 ? router.back()
@@ -475,7 +482,7 @@ const AtomPlayerIframe: FC = () => {
               height="22px"
               color={
                 router?.asPath?.includes('/lyric')
-                  ? (colors[0]?.hex as string)
+                  ? (colors?.[0]?.hex as string)
                   : 'white'
               }
             />
@@ -497,6 +504,11 @@ const AtomPlayerIframe: FC = () => {
               @media (max-width: 980px) {
                 display: none;
               }
+              ${router?.asPath?.includes('/queue') &&
+              css`
+                border-bottom: 2px solid ${colors?.[0]?.hex};
+                padding-bottom: 10px;
+              `}
             `}
           >
             <AtomIcon
@@ -506,7 +518,9 @@ const AtomPlayerIframe: FC = () => {
               customCSS={css`
                 svg {
                   path {
-                    stroke: white;
+                    stroke: ${router?.asPath?.includes('/queue')
+                      ? (colors?.[0]?.hex as string)
+                      : 'white'};
                   }
                 }
               `}
