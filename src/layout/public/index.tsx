@@ -1,5 +1,5 @@
 import AtomLoader from '@Components/@atoms/AtomLoader';
-import AtomPlayer from '@Components/@atoms/AtomPlayer';
+import AtomPlayerIframe from '@Components/@atoms/AtomPlayerIframe';
 import AtomWrapper from '@Components/@atoms/Atomwrapper';
 import OrganismNavbar from '@Components/@organims/public/OrganismNavBar';
 import { css } from '@emotion/react';
@@ -78,7 +78,7 @@ const PublicLayout: FC = (props) => {
               {props?.children}
             </AtomWrapper>
           </AtomWrapper>
-          <AtomPlayer />
+          <AtomPlayerIframe />
         </AtomWrapper>
       ) : (
         <AtomLoader
