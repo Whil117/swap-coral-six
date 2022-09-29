@@ -24,10 +24,13 @@ const AtomPlayTrack: FC<Props> = (props) => {
   const controls = useAtomValue(CONTROLS_PLAYER_WITH_REDUCER_ATOM);
   const [play, setPlayIFRAME] = useAtom(PLAY_IFRAME_ATOM);
 
-  const validateContext = controls?.origin?.query?.id === router.query?.id;
+  const validateContext =
+    controls?.origin?.query?.id === router.query?.id ||
+    router.asPath?.includes('queue');
 
   const validTrackId = controls?.currentTrack?.id === props.id;
   const inValidTrackId = controls?.currentTrack?.id !== props?.id;
+  // console.log(validTrackId && play && validateContext);
 
   return (
     <AtomButton
