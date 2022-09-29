@@ -10,9 +10,12 @@ import UseColor from '@Hooks/useColor';
 import { IQueryFilter } from '@Types/index';
 import { useAtomValue } from 'jotai';
 import { NextPageContext, NextPageFC } from 'next';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 import CONTROLS_PLAYER_WITH_REDUCER_ATOM from '_jotai/player/reducer';
 
 const LyricByID: NextPageFC<{ id: string }> = ({ id }) => {
+  const router = useRouter();
   const controls = useAtomValue(CONTROLS_PLAYER_WITH_REDUCER_ATOM);
   const color = UseColor(controls?.currentTrack?.images?.[0]?.url as string);
   const { data, loading } = useQuery<IQueryFilter<'lyricByTrackId'>>(
@@ -27,6 +30,24 @@ const LyricByID: NextPageFC<{ id: string }> = ({ id }) => {
       }
     }
   );
+
+  useEffect(() => {
+    if (router?.asPath?.includes('/lyric')) {
+      router
+        ?.push({
+          pathname: '/public/lyric/[id]',
+          query: {
+            id: controls?.currentTrack?.id
+          }
+        })
+        .then(() => {
+          document?.getElementById('view')?.scroll({
+            top: 0,
+            behavior: 'smooth'
+          });
+        });
+    }
+  }, [controls]);
 
   return (
     <AtomWrapper
