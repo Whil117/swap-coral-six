@@ -1,11 +1,21 @@
 /* eslint-disable no-unused-vars */
+import client from '@Apollo/client/notWSS';
+import { albumByID } from '@Apollo/client/query/albumByID';
 import { css } from '@emotion/react';
+import { COLORS_ATOM } from '@Hooks/useColor';
+import { IImage, IQueryFilter, ISong } from '@Types/index';
 import convertDateWithOptions from '@Utils/convertDateWithOptions';
-import { FC } from 'react';
+import { useAtom, useAtomValue } from 'jotai';
+import { NextRouter, useRouter } from 'next/router';
+import CONTROLS_PLAYER_WITH_REDUCER_ATOM, {
+  ActionPlayer
+} from '_jotai/player/reducer';
 import AtomButton from '../AtomButton';
+import AtomIcon from '../AtomIcon';
 import AtomImage from '../AtomImage';
+import { getRandomTrack } from '../AtomPlayByAlbum&Playlist';
 import { AtomText } from '../AtomText';
-
+import AtomWrapper from '../Atomwrapper';
 type Card = {
   id?: string;
   type?: string;
@@ -16,7 +26,54 @@ type Card = {
 };
 const ImageTypes = ['track', 'playlist', 'single', 'compilation', 'album'];
 
-const AtomCard: FC<Card> = (props) => {
+const TYPEMETHOD = {
+  album: async (
+    id: string,
+    dispatch: (update: ActionPlayer) => void,
+    router: NextRouter
+  ) => {
+    const data = await client
+      .query<IQueryFilter<'albumById'>>({
+        query: albumByID,
+        variables: {
+          id: id
+        }
+      })
+      .then((res) => res.data);
+    const randomTrack = getRandomTrack(
+      data?.albumById?.tracks?.items as ISong[]
+    );
+    dispatch({
+      type: 'SET_TRACK',
+      payload: {
+        currentTrack: {
+          ...randomTrack,
+          // artists: data?.albumById?.artists,
+          album: randomTrack?.album,
+          images: randomTrack?.album?.images as IImage[],
+          destination: {
+            type: 'playlist',
+            id: id
+          }
+        },
+        context: data?.albumById?.tracks?.items?.map((item) => ({
+          ...item,
+          images: item?.album?.images as IImage[],
+          destination: {
+            type: 'playlist',
+            id: id
+          }
+        })),
+        origin: router
+      }
+    });
+  }
+  // playlist: () => {}
+};
+const AtomCard = (props: Card) => {
+  const router = useRouter();
+  const colors = useAtomValue(COLORS_ATOM);
+  const [controls, dispatch] = useAtom(CONTROLS_PLAYER_WITH_REDUCER_ATOM);
   return (
     <AtomButton
       onClick={() => {
@@ -29,6 +86,7 @@ const AtomCard: FC<Card> = (props) => {
         });
       }}
       customCSS={css`
+        position: relative;
         cursor: pointer;
         transition: all 0.3s ease;
         align-items: flex-start;
@@ -39,6 +97,30 @@ const AtomCard: FC<Card> = (props) => {
         border-radius: 5px;
         width: 200px;
         height: 270px;
+        .hoverPlay {
+          text-align: center;
+          opacity: 0;
+          color: white;
+          font-family: 'Montserrat', sans-serif;
+          font-weight: 500;
+          font-size: 180%;
+          line-height: 120%;
+          transition: all 0.3s ease-in-out;
+          position: absolute;
+          right: 15px;
+          bottom: 85px;
+        }
+        :hover {
+          .hoverPlay {
+            height: max-content;
+            opacity: 1;
+            z-index: 9999;
+            transition: all 0.3s ease-in-out;
+          }
+          .onHide {
+            display: none;
+          }
+        }
         &:hover {
           box-shadow: 0px 0px 10px #0000003f;
           background: #32323d;
@@ -64,29 +146,65 @@ const AtomCard: FC<Card> = (props) => {
         }
       `}
     >
-      <AtomImage
-        src={props?.image as string}
-        alt={props?.name as string}
-        width="100%"
-        height="180px"
-        borderRadius={
-          ImageTypes.includes(props?.type as string) ? '5px' : '50%'
-        }
-        customCSS={css`
-          @media (max-width: 520px) {
-            width: -webkit-fill-available;
-            height: 170px;
+      <AtomWrapper width="100%">
+        <AtomImage
+          src={props?.image as string}
+          alt={props?.name as string}
+          width="100%"
+          height="180px"
+          borderRadius={
+            ImageTypes.includes(props?.type as string) ? '5px' : '50%'
           }
-          @media (max-width: 445px) {
-            width: -webkit-fill-available;
-            height: 130px;
-          }
-          @media (max-width: 425px) {
-            width: -webkit-fill-available;
-            height: 130px;
-          }
-        `}
-      />
+          customCSS={css`
+            @media (max-width: 520px) {
+              width: -webkit-fill-available;
+              height: 170px;
+            }
+            @media (max-width: 445px) {
+              width: -webkit-fill-available;
+              height: 130px;
+            }
+            @media (max-width: 425px) {
+              width: -webkit-fill-available;
+              height: 130px;
+            }
+          `}
+        />
+        {ImageTypes.includes(props.type as string) && (
+          <AtomButton
+            className="hoverPlay"
+            padding="10px"
+            backgroundColor={colors?.[0]?.hex}
+            borderRadius="50%"
+            onClick={async () => {
+              await TYPEMETHOD[props?.type as keyof typeof TYPEMETHOD](
+                props?.id as string,
+                dispatch,
+                router
+              );
+            }}
+          >
+            <AtomIcon
+              width="30px"
+              height="30px"
+              icon={
+                false
+                  ? 'https://res.cloudinary.com/whil/image/upload/v1661401538/pause_he3p5p.svg'
+                  : 'https://res.cloudinary.com/whil/image/upload/v1661401539/play_obtqfo.svg'
+              }
+              color="white"
+              customCSS={css`
+                svg {
+                  path {
+                    /* fill: white; */
+                    stroke: white;
+                  }
+                }
+              `}
+            />
+          </AtomButton>
+        )}
+      </AtomWrapper>
       {(props?.name?.length as number) > 35 ? (
         <AtomText
           as="h4"

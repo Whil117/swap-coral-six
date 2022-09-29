@@ -14,6 +14,19 @@ const PublicLayout: FC = (props) => {
     }, 500);
   }, []);
 
+  
+  useEffect(() => {
+    setTimeout(() => {
+      setfirst(true);
+    }, 500);
+  }, []);
+
+me saldre ahora y te fijas  let whil = 'j';
+  como me salgo?
+   jaja
+  
+  "ok okok<
+
   return (
     <>
       {first ? (
@@ -46,13 +59,6 @@ const PublicLayout: FC = (props) => {
               ::-webkit-scrollbar {
                 width: 10px;
               }
-              /* ::-webkit-scrollbar-thumb {
-                  background: #f10000;
-                  border-radius: 4px;
-                }
-                ::-webkit-scrollbar {
-                  width: 10px;
-              } */
 
               ::-webkit-scrollbar-thumb {
                 background: #ccc;
