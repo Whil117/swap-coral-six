@@ -27,48 +27,50 @@ type Card = {
 };
 const ImageTypes = ['track', 'playlist', 'single', 'compilation', 'album'];
 
-const TYPEMETHOD = {
-  album: async (
-    id: string,
-    dispatch: (update: ActionPlayer) => void,
-    router: NextRouter
-  ) => {
-    const data = await client
-      .query<IQueryFilter<'albumById'>>({
-        query: albumByID,
-        variables: {
+const shareDispatch = async (
+  id: string,
+  dispatch: (update: ActionPlayer) => void,
+  router: NextRouter
+) => {
+  const data = await client
+    .query<IQueryFilter<'albumById'>>({
+      query: albumByID,
+      variables: {
+        id: id
+      }
+    })
+    .then((res) => res.data);
+  const randomTrack = getRandomTrack(data?.albumById?.tracks?.items as ISong[]);
+  dispatch({
+    type: 'SET_TRACK',
+    payload: {
+      currentTrack: {
+        ...randomTrack,
+        // artists: data?.albumById?.artists,
+        album: randomTrack?.album,
+        images: randomTrack?.album?.images as IImage[],
+        destination: {
+          type: 'playlist',
           id: id
         }
-      })
-      .then((res) => res.data);
-    const randomTrack = getRandomTrack(
-      data?.albumById?.tracks?.items as ISong[]
-    );
-    dispatch({
-      type: 'SET_TRACK',
-      payload: {
-        currentTrack: {
-          ...randomTrack,
-          // artists: data?.albumById?.artists,
-          album: randomTrack?.album,
-          images: randomTrack?.album?.images as IImage[],
-          destination: {
-            type: 'playlist',
-            id: id
-          }
-        },
-        context: data?.albumById?.tracks?.items?.map((item) => ({
-          ...item,
-          images: item?.album?.images as IImage[],
-          destination: {
-            type: 'playlist',
-            id: id
-          }
-        })),
-        origin: router
-      }
-    });
-  },
+      },
+      context: data?.albumById?.tracks?.items?.map((item) => ({
+        ...item,
+        images: item?.album?.images as IImage[],
+        destination: {
+          type: 'playlist',
+          id: id
+        }
+      })),
+      origin: router
+    }
+  });
+};
+
+const TYPEMETHOD = {
+  compilation: shareDispatch,
+  single: shareDispatch,
+  album: shareDispatch,
   playlist: async (
     id: string,
     dispatch: (update: ActionPlayer) => void,
