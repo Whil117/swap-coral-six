@@ -14,18 +14,11 @@ const PublicLayout: FC = (props) => {
     }, 500);
   }, []);
 
-  
   useEffect(() => {
     setTimeout(() => {
       setfirst(true);
     }, 500);
   }, []);
-
-me saldre ahora y te fijas  let whil = 'j';
-  como me salgo?
-   jaja
-  
-  "ok okok<
 
   return (
     <>

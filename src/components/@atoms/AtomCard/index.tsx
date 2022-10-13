@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import client from '@Apollo/client/notWSS';
 import { albumByID } from '@Apollo/client/query/albumByID';
+import { PLAYLISTBYID } from '@Apollo/client/query/playlistById';
 import { css } from '@emotion/react';
 import { COLORS_ATOM } from '@Hooks/useColor';
 import { IImage, IQueryFilter, ISong } from '@Types/index';
@@ -67,13 +68,55 @@ const TYPEMETHOD = {
         origin: router
       }
     });
+  },
+  playlist: async (
+    id: string,
+    dispatch: (update: ActionPlayer) => void,
+    router: NextRouter
+  ) => {
+    const data = await client
+      .query<IQueryFilter<'playListById'>>({
+        query: PLAYLISTBYID,
+        variables: {
+          id: id
+        }
+      })
+      .then((res) => res.data);
+    const randomTrack = getRandomTrack(
+      data?.playListById?.tracks?.items as ISong[]
+    );
+
+    dispatch({
+      type: 'SET_TRACK',
+      payload: {
+        currentTrack: {
+          ...randomTrack,
+          // artists: data?.albumById?.artists,
+          album: randomTrack?.album,
+          images: randomTrack?.album?.images as IImage[],
+          destination: {
+            type: 'playlist',
+            id: id
+          }
+        },
+        context: data?.playListById?.tracks?.items?.map((item) => ({
+          ...item,
+          images: item?.album?.images as IImage[],
+          destination: {
+            type: 'playlist',
+            id: id
+          }
+        })),
+        origin: router
+      }
+    });
   }
-  // playlist: () => {}
 };
 const AtomCard = (props: Card) => {
   const router = useRouter();
   const colors = useAtomValue(COLORS_ATOM);
   const [controls, dispatch] = useAtom(CONTROLS_PLAYER_WITH_REDUCER_ATOM);
+
   return (
     <AtomButton
       onClick={() => {
@@ -88,6 +131,7 @@ const AtomCard = (props: Card) => {
       customCSS={css`
         position: relative;
         cursor: pointer;
+        z-index: 1;
         transition: all 0.3s ease;
         align-items: flex-start;
         justify-content: space-between;
@@ -107,6 +151,7 @@ const AtomCard = (props: Card) => {
           line-height: 120%;
           transition: all 0.3s ease-in-out;
           position: absolute;
+          z-index: 2;
           right: 15px;
           bottom: 85px;
         }
