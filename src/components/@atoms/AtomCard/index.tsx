@@ -47,18 +47,19 @@ const shareDispatch = async (
       currentTrack: {
         ...randomTrack,
         // artists: data?.albumById?.artists,
-        album: randomTrack?.album,
+        album: data?.albumById,
         images: randomTrack?.album?.images as IImage[],
         destination: {
-          type: 'playlist',
+          type: 'album',
           id: id
         }
       },
       context: data?.albumById?.tracks?.items?.map((item) => ({
         ...item,
+        album: data?.albumById,
         images: item?.album?.images as IImage[],
         destination: {
-          type: 'playlist',
+          type: 'album',
           id: id
         }
       })),
