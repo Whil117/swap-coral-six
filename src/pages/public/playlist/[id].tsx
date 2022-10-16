@@ -95,7 +95,7 @@ const PlaylistPublic: NextPageFC<{ id: string }> = ({ id }) => {
           >
             {data?.playListById?.tracks?.items?.map((item) => (
               <AtomTrack
-                type="album"
+                type="playlist"
                 key={item?.id}
                 onPlay={() => {
                   dispatch({

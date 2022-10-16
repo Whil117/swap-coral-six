@@ -27,7 +27,7 @@ const QueuePage: NextPageFCProps = () => {
             Now Playing
           </AtomText>
           <AtomTrack
-            type="album"
+            type="playlist"
             key={controls?.currentTrack?.id}
             onPlay={() => {
               dispatch({
@@ -58,7 +58,7 @@ const QueuePage: NextPageFCProps = () => {
             })
             ?.map((item) => (
               <AtomTrack
-                type="album"
+                type="playlist"
                 key={item?.id}
                 onPlay={() => {
                   dispatch({
