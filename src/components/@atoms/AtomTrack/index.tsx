@@ -268,7 +268,7 @@ const typeTracks = {
           textDecoration="underline"
         >
           <AtomText color="white" textDecoration="underline">
-            {props?.album?.name}
+            {props?.album?.album?.name}
           </AtomText>
         </AtomLINK>
         <AtomWrapper
