@@ -1,7 +1,5 @@
 import AtomButton from '@Components/@atoms/AtomButton';
 import AtomIcon from '@Components/@atoms/AtomIcon';
-import AtomImage from '@Components/@atoms/AtomImage';
-import AtomLINK from '@Components/@atoms/AtomLink';
 import { AtomText } from '@Components/@atoms/AtomText';
 import AtomWrapper from '@Components/@atoms/Atomwrapper';
 import { css } from '@emotion/react';
@@ -42,14 +40,27 @@ const Sections = [
   },
   {
     id: uuidv4(),
+    name: 'My Favorites',
+    path: '/public/favorites'
+  },
+  {
+    id: uuidv4(),
     name: 'How Works?',
     path: '/public/howworks',
     icon: 'https://res.cloudinary.com/whil/image/upload/v1663363954/document-code_o8g9vx.svg'
+  },
+  {
+    id: uuidv4(),
+    name: 'Whil',
+    type: 'external',
+    path: 'https://www.linkedin.com/in/ivangarciawhil117/',
+    icon: 'https://res.cloudinary.com/whil/image/upload/v1663364528/whil_qc16xc.svg'
   }
 ];
 
 const OrganismNavbar: FC = () => {
   const router = useRouter();
+
   return (
     <AtomWrapper
       backgroundColor="#191922"
@@ -125,16 +136,20 @@ const OrganismNavbar: FC = () => {
               justifyContent="flex-start"
               gap="20px"
               onClick={() => {
-                router
-                  .push({
-                    pathname: section.path
-                  })
-                  .then(() => {
-                    document?.getElementById('view')?.scroll({
-                      top: 0,
-                      behavior: 'smooth'
+                if (section.type === 'external') {
+                  window.open(section.path, '_blank');
+                } else {
+                  router
+                    .push({
+                      pathname: section.path
+                    })
+                    .then(() => {
+                      document?.getElementById('view')?.scroll({
+                        top: 0,
+                        behavior: 'smooth'
+                      });
                     });
-                  });
+                }
               }}
             >
               <AtomIcon
@@ -155,7 +170,7 @@ const OrganismNavbar: FC = () => {
               </AtomText>
             </AtomButton>
           ))}
-          <AtomWrapper flexDirection="row" alignItems="center" gap="5px">
+          {/* <AtomWrapper flexDirection="row" alignItems="center" gap="5px">
             <AtomImage
               alt="whil"
               width="25px"
@@ -167,9 +182,9 @@ const OrganismNavbar: FC = () => {
               color="white"
               href="https://www.linkedin.com/in/ivangarciawhil117/"
             >
-              Whil Inc.
+              Whil
             </AtomLINK>
-          </AtomWrapper>
+          </AtomWrapper> */}
         </AtomWrapper>
       </AtomWrapper>
     </AtomWrapper>

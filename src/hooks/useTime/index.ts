@@ -23,6 +23,10 @@ const reduceDuration = (tracks?: Tracks[]) => {
   return result;
 };
 
+function addLeadingZeros(num: number) {
+  return String(num).padStart(2, '0');
+}
+
 const useTime = ({ tracks, duration_ms }: UseTimeProps) => {
   const ARRTRACKS = tracks as Tracks[];
   const isTracks = ARRTRACKS?.length > 0;
@@ -31,11 +35,13 @@ const useTime = ({ tracks, duration_ms }: UseTimeProps) => {
 
   if (isTracks) {
     if (returnMs?.hours !== 0) {
-      return `${returnMs?.hours} Hrs ${returnMs?.minutes} Mins`;
+      return `${returnMs?.hours} Hrs ${addLeadingZeros(
+        returnMs?.minutes
+      )} Mins`;
     }
     return `${returnMs?.minutes} Mins`;
   } else if (duration_ms) {
-    return `${returnMs?.minutes}:${returnMs?.seconds}`;
+    return `${returnMs?.minutes}:${addLeadingZeros(returnMs?.seconds)}`;
   }
 };
 export default useTime;

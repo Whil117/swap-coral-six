@@ -5,7 +5,7 @@ import { NextRouter } from 'next/router';
 
 /* eslint-disable no-unused-vars */
 
-type PropsWithTypes<T> = T & {
+export type PropsWithTypes<T> = T & {
   images?: IImage[];
   album?: IAlbumType;
   destination?: {
@@ -104,6 +104,10 @@ const typesReducers: typesReducers = {
       ...STATE.controls,
       repeatByOne: !STATE.controls?.repeatByOne as boolean
     } as any
+  }),
+  SET_CONTEXT: (state, payload) => ({
+    ...state,
+    context: payload.context
   })
 };
 

@@ -12,13 +12,15 @@ import AtomTrack from '@Components/@atoms/AtomTrack';
 import AtomWrapper from '@Components/@atoms/Atomwrapper';
 import { css } from '@emotion/react';
 import { IAlbumType, IImage, IQueryFilter, ISong } from '@Types/index';
-import { useSetAtom } from 'jotai';
+import { useAtom, useSetAtom } from 'jotai';
 import { NextPageContext, NextPageFC } from 'next';
 import { useRouter } from 'next/router';
+import MY_FAVORITES_REDUCER_ATOM from '_jotai/favoritesSongs/reducer';
 import CONTROLS_PLAYER_WITH_REDUCER_ATOM from '_jotai/player/reducer';
 
 const AlbumPublic: NextPageFC<{ id: string }> = ({ id }) => {
   const dispatch = useSetAtom(CONTROLS_PLAYER_WITH_REDUCER_ATOM);
+  const [favorites, setFavorite] = useAtom(MY_FAVORITES_REDUCER_ATOM);
   const router = useRouter();
   const { data, loading } = useQuery<IQueryFilter<'albumById'>>(albumByID, {
     skip: !id,
@@ -56,6 +58,7 @@ const AlbumPublic: NextPageFC<{ id: string }> = ({ id }) => {
                     ...randomTrack,
                     // artists: data?.albumById?.artists,
                     images: data?.albumById?.images as IImage[],
+
                     album: {
                       ...data?.albumById,
                       tracks: {
@@ -130,6 +133,31 @@ const AlbumPublic: NextPageFC<{ id: string }> = ({ id }) => {
                       origin: router
                     }
                   });
+                }}
+                onFavorite={() => {
+                  const isFavorite = favorites?.some(
+                    (favorites) => favorites.id === item?.id
+                  );
+                  if (isFavorite) {
+                    setFavorite((prev) =>
+                      prev.filter((favorite) => favorite.id !== id)
+                    );
+                  } else {
+                    setFavorite((prev) => [
+                      ...prev,
+                      {
+                        ...item,
+                        // artists: data?.albumById?.artists,
+                        images: data?.albumById?.images as IImage[],
+                        album: data?.albumById,
+                        track_number: favorites.length + 1,
+                        destination: {
+                          type: 'album',
+                          id: id
+                        }
+                      }
+                    ]);
+                  }
                 }}
                 album={item as ISong}
               />

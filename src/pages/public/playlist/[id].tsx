@@ -16,14 +16,16 @@ import {
   IQueryFilter,
   ISong
 } from '@Types/index';
-import { useSetAtom } from 'jotai';
+import { useAtom, useSetAtom } from 'jotai';
 import { NextPageContext, NextPageFC } from 'next';
 import { useRouter } from 'next/router';
+import MY_FAVORITES_REDUCER_ATOM from '_jotai/favoritesSongs/reducer';
 import CONTROLS_PLAYER_WITH_REDUCER_ATOM from '_jotai/player/reducer';
 
 const PlaylistPublic: NextPageFC<{ id: string }> = ({ id }) => {
   const dispatch = useSetAtom(CONTROLS_PLAYER_WITH_REDUCER_ATOM);
   const router = useRouter();
+  const [favorites, setFavorites] = useAtom(MY_FAVORITES_REDUCER_ATOM);
   const { data, loading } = useQuery<IQueryFilter<'playListById'>>(
     PLAYLISTBYID,
     {
@@ -124,6 +126,31 @@ const PlaylistPublic: NextPageFC<{ id: string }> = ({ id }) => {
                       origin: router
                     }
                   });
+                }}
+                onFavorite={() => {
+                  const isFavorite = favorites?.some(
+                    (favorites) => favorites.id === item?.id
+                  );
+                  if (isFavorite) {
+                    setFavorites((prev) =>
+                      prev.filter((favorite) => favorite.id !== id)
+                    );
+                  } else {
+                    setFavorites((prev) => [
+                      ...prev,
+                      {
+                        ...item,
+                        // artists: data?.albumById?.artists,
+                        album: item?.album,
+                        track_number: favorites.length + 1,
+                        images: item?.album?.images as IImage[],
+                        destination: {
+                          type: 'playlist',
+                          id: id
+                        }
+                      }
+                    ]);
+                  }
                 }}
                 album={item as ISong}
               />
