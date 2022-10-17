@@ -78,7 +78,10 @@ const MyFavorites: NextPageFCProps = () => {
                               id: item?.album?.id as string
                             }
                           },
-                          context: favorites,
+                          context: favorites.map((item, index) => ({
+                            ...item,
+                            track_number: index + 1
+                          })),
                           origin: router
                         }
                       });
