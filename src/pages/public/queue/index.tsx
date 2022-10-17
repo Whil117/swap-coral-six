@@ -5,10 +5,12 @@ import { css } from '@emotion/react';
 import { IImage, ISong } from '@Types/index';
 import { useAtom } from 'jotai';
 import { NextPageFCProps } from 'next';
+import MY_FAVORITES_REDUCER_ATOM from '_jotai/favoritesSongs/reducer';
 import CONTROLS_PLAYER_WITH_REDUCER_ATOM from '_jotai/player/reducer';
 
 const QueuePage: NextPageFCProps = () => {
   const [controls, dispatch] = useAtom(CONTROLS_PLAYER_WITH_REDUCER_ATOM);
+  const [favorites, setFavorite] = useAtom(MY_FAVORITES_REDUCER_ATOM);
   return (
     <AtomWrapper width="100%">
       <AtomWrapper
@@ -39,6 +41,33 @@ const QueuePage: NextPageFCProps = () => {
                   context: controls?.context
                 }
               });
+            }}
+            onFavorite={() => {
+              const isFavorite = favorites?.some(
+                (favorites) => favorites.id === controls?.currentTrack?.id
+              );
+              if (isFavorite) {
+                setFavorite((prev) =>
+                  prev.filter(
+                    (favorite) => favorite.id !== controls?.currentTrack?.id
+                  )
+                );
+              } else {
+                setFavorite((prev) => [
+                  ...prev,
+                  {
+                    ...controls?.currentTrack,
+                    // artists: data?.albumById?.artists,
+                    images: controls?.currentTrack?.images as IImage[],
+                    album: controls?.currentTrack?.album,
+                    track_number: favorites.length + 1,
+                    destination: {
+                      type: 'album',
+                      id: controls?.currentTrack?.album?.id as string
+                    }
+                  }
+                ]);
+              }
             }}
             album={controls?.currentTrack as ISong}
           />
@@ -77,6 +106,31 @@ const QueuePage: NextPageFCProps = () => {
                       context: controls?.context
                     }
                   });
+                }}
+                onFavorite={() => {
+                  const isFavorite = favorites?.some(
+                    (favorites) => favorites.id === item?.id
+                  );
+                  if (isFavorite) {
+                    setFavorite((prev) =>
+                      prev.filter((favorite) => favorite.id !== item?.id)
+                    );
+                  } else {
+                    setFavorite((prev) => [
+                      ...prev,
+                      {
+                        ...item,
+                        // artists: data?.albumById?.artists,
+                        images: item?.images as IImage[],
+                        album: item?.album,
+                        track_number: favorites.length + 1,
+                        destination: {
+                          type: 'album',
+                          id: item?.id as string
+                        }
+                      }
+                    ]);
+                  }
                 }}
                 album={item as ISong}
               />

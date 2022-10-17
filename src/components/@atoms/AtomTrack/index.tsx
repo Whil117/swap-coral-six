@@ -506,7 +506,7 @@ const typeTracks = {
             })}
           </AtomText>
         </AtomWrapper>
-        <AtomDraggable dragControls={props?.dragControls} />
+        <AtomDraggable dragControls={props?.dragControls as DragControls} />
       </AtomWrapper>
     );
   }
@@ -518,7 +518,7 @@ type AtomTrack = {
   onFavorite: () => void;
   album?: AlbumProps;
   favorites?: ISong[];
-  dragControls: DragControls;
+  dragControls?: DragControls;
   dispatch?: (update: ActionPlayer) => void;
 };
 
