@@ -389,6 +389,7 @@ const typeTracks = {
               display: none;
             }
           }
+          z-index: -1;
         `}
         key={props?.album?.id}
       >
@@ -506,7 +507,7 @@ const typeTracks = {
             })}
           </AtomText>
         </AtomWrapper>
-        <AtomDraggable dragControls={props?.dragControls as DragControls} />
+        <AtomDraggable />
       </AtomWrapper>
     );
   }
