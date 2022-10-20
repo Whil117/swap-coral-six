@@ -12,7 +12,6 @@ import MY_FAVORITES_REDUCER_ATOM, {
   ActionPlayer
 } from '_jotai/favoritesSongs/reducer';
 import AtomButton from '../AtomButton';
-import AtomDraggable from '../AtomDraggable';
 import AtomIcon from '../AtomIcon';
 import AtomImage from '../AtomImage';
 import AtomLINK from '../AtomLink';
@@ -507,7 +506,6 @@ const typeTracks = {
             })}
           </AtomText>
         </AtomWrapper>
-        <AtomDraggable />
       </AtomWrapper>
     );
   }
