@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import AtomBanner from '@Components/@atoms/AtomBanner';
+import { Item } from '@Components/@atoms/AtomCustomDrag';
 import AtomWrapper from '@Components/@atoms/Atomwrapper';
 import { css } from '@emotion/react';
 import useTimerDrag, { DragPagesAtom } from '@Hooks/useTimerDrag';
@@ -10,7 +11,6 @@ import { NextPageFCProps } from 'next';
 import { useRouter } from 'next/router';
 import MY_FAVORITES_REDUCER_ATOM from '_jotai/favoritesSongs/reducer';
 import CONTROLS_PLAYER_WITH_REDUCER_ATOM from '_jotai/player/reducer';
-import { Item } from './ADF';
 
 const MyFavorites: NextPageFCProps = () => {
   const [favorites, setFavorites] = useAtom(MY_FAVORITES_REDUCER_ATOM);
