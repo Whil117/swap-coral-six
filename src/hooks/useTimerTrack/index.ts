@@ -28,7 +28,7 @@ const useTimer = (props: Props) => {
 
   useEffect(() => {
     const intervalTimer = setTimeout(() => {
-      if (playIFRAME) {
+      if (playIFRAME || controls?.controls?.repeat) {
         setTimer(0);
         setPlayIFRAME(true);
         spotifyEmbedWindow?.postMessage({ command: 'play' }, '*');
@@ -37,16 +37,16 @@ const useTimer = (props: Props) => {
     return () => clearInterval(intervalTimer);
   }, [controls?.currentTrack?.id]);
 
-  useEffect(() => {
-    const intervalTimer = setTimeout(() => {
-      if (controls?.controls?.repeat) {
-        setTimer(0);
-        setPlayIFRAME(true);
-        spotifyEmbedWindow?.postMessage({ command: 'play' }, '*');
-      }
-    }, 1200);
-    return () => clearInterval(intervalTimer);
-  }, [controls?.currentTrack?.id]);
+  // useEffect(() => {
+  //   const intervalTimer = setTimeout(() => {
+  //     if (controls?.controls?.repeat) {
+  //       setTimer(0);
+  //       setPlayIFRAME(true);
+  //       spotifyEmbedWindow?.postMessage({ command: 'play' }, '*');
+  //     }
+  //   }, 1200);
+  //   return () => clearInterval(intervalTimer);
+  // }, [controls?.currentTrack?.id]);
 
   useEffect(() => {
     const intervalTimer = setInterval(() => {
