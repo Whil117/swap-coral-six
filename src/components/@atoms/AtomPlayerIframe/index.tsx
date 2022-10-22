@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { css } from '@emotion/react';
 import { COLORS_ATOM } from '@Hooks/useColor';
+import { addLeadingZeros } from '@Hooks/useTime';
 import useTimer, { timerAtom } from '@Hooks/useTimerTrack';
 import convertToSecondsAndMinutes from '@Utils/convertToSecontsAndMinutes';
 import useIframe from '@Utils/useRefIframe';
@@ -31,7 +32,18 @@ const AtomPlayerIframe: FC = () => {
     play: playIFRAME,
     repeat: controls?.controls?.repeat,
     onCompleted: (returnCOn) => {
-      if (returnCOn?.controls?.repeat) {
+      if (controls.controls?.repeatByOne) {
+        setCurrentTime(0);
+        setPlayIFRAME(true);
+        spotifyEmbedWindow.postMessage({ command: 'toggle' }, '*');
+        spotifyEmbedWindow.postMessage(
+          {
+            command: 'seek',
+            timestamp: 0
+          },
+          '*'
+        );
+      } else if (returnCOn?.controls?.repeat) {
         setCurrentTime(0);
         setPlayIFRAME(true);
         dispatch({
@@ -134,10 +146,24 @@ const AtomPlayerIframe: FC = () => {
                 backgroundColor="transparent"
                 padding="0px"
                 onClick={() => {
-                  dispatch({
-                    type: 'SET_REPEAT',
-                    payload: {}
-                  });
+                  if (!controls.controls?.repeatByOne) {
+                    dispatch({
+                      type: 'SET_REPEAT',
+                      payload: {}
+                    });
+                  }
+                  if (controls.controls?.repeat) {
+                    dispatch({
+                      type: 'SET_REPEATBYONE',
+                      payload: {}
+                    });
+                  }
+                  if (controls.controls?.repeatByOne) {
+                    dispatch({
+                      type: 'SET_REPEATBYONE',
+                      payload: {}
+                    });
+                  }
                 }}
                 customCSS={css`
                   @media (max-width: 980px) {
@@ -146,13 +172,18 @@ const AtomPlayerIframe: FC = () => {
                 `}
               >
                 <AtomIcon
-                  icon="https://res.cloudinary.com/whil/image/upload/v1661401540/repeatt_yet17i.svg"
+                  icon={
+                    controls.controls?.repeatByOne === false
+                      ? 'https://res.cloudinary.com/whil/image/upload/v1661401540/repeatt_yet17i.svg'
+                      : 'https://res.cloudinary.com/whil/image/upload/v1666418101/repeate-one_genumq.svg'
+                  }
                   width="22px"
                   height="22px"
                   customCSS={css`
                     svg {
                       path {
-                        stroke: ${controls.controls?.repeat
+                        stroke: ${controls.controls?.repeat ||
+                        controls.controls?.repeatByOne
                           ? colors?.[0]?.hex
                           : 'white'};
                       }
@@ -259,6 +290,16 @@ const AtomPlayerIframe: FC = () => {
               <AtomButton
                 backgroundColor="transparent"
                 padding="0px"
+                onClick={() => {
+                  dispatch({
+                    type: 'SET_ALEATORY',
+                    payload: {
+                      controls: {
+                        aleatory: !controls.controls?.aleatory
+                      }
+                    }
+                  });
+                }}
                 customCSS={css`
                   @media (max-width: 980px) {
                     display: none;
@@ -272,7 +313,9 @@ const AtomPlayerIframe: FC = () => {
                   customCSS={css`
                     svg {
                       path {
-                        stroke: white;
+                        stroke: ${controls.controls?.aleatory
+                          ? colors?.[0]?.hex
+                          : 'white'};
                       }
                     }
                   `}
@@ -304,7 +347,10 @@ const AtomPlayerIframe: FC = () => {
                 }
               `}
             >
-              {convertToSecondsAndMinutes(currentTime)?.text}
+              {convertToSecondsAndMinutes(currentTime)?.minutes}:
+              {addLeadingZeros(
+                convertToSecondsAndMinutes(currentTime)?.seconds
+              )}
             </AtomText>
             <AtomInput
               id="player-reproductor"
@@ -432,7 +478,8 @@ const AtomPlayerIframe: FC = () => {
                 }
               `}
             >
-              {convertToSecondsAndMinutes(CURRTRACK as number)?.text}
+              {convertToSecondsAndMinutes(CURRTRACK)?.minutes}:
+              {addLeadingZeros(convertToSecondsAndMinutes(CURRTRACK)?.seconds)}
             </AtomText>
           </AtomWrapper>
         </AtomWrapper>

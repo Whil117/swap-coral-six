@@ -1,3 +1,4 @@
+import { getRandomTrack } from '@Components/@atoms/AtomPlayByAlbum&Playlist';
 import { IAlbumType, IImage, ISong } from '@Types/index';
 import { atom } from 'jotai';
 import { atomWithStorage } from 'jotai/utils';
@@ -17,9 +18,9 @@ export type PropsWithTypes<T> = T & {
 export type InitialState = {
   currentTrack?: PropsWithTypes<ISong>;
   controls?: {
-    aleatory: boolean;
-    repeat: boolean;
-    repeatByOne: boolean;
+    aleatory?: boolean;
+    repeat?: boolean;
+    repeatByOne?: boolean;
   };
   context?: PropsWithTypes<ISong>[];
   origin?: NextRouter;
@@ -62,7 +63,10 @@ const typesReducers: typesReducers = {
     origin: PAYLOAD.origin ?? STATE.origin
   }),
   CHANGE_TRACK: (STATE, PAYLOAD) => {
-    const TRACKNUMBER = PAYLOAD?.currentTrack?.track_number as number;
+    const TRACKNUMBER = STATE.controls?.aleatory
+      ? (getRandomTrack(STATE.context as PropsWithTypes<ISong>[])
+          ?.track_number as number)
+      : (PAYLOAD?.currentTrack?.track_number as number);
     const isValidTrackNumber = STATE?.context?.some(
       (item) => item.track_number === TRACKNUMBER
     );
@@ -97,6 +101,13 @@ const typesReducers: typesReducers = {
       ...STATE.controls,
       repeat: !STATE.controls?.repeat as boolean
     } as any
+  }),
+  SET_ALEATORY: (STATE, PAYLOAD) => ({
+    ...STATE,
+    controls: {
+      ...STATE.controls,
+      aleatory: PAYLOAD.controls?.aleatory as boolean
+    }
   }),
   SET_REPEATBYONE: (STATE, PAYLOAD) => ({
     ...STATE,

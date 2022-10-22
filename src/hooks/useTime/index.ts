@@ -23,7 +23,7 @@ const reduceDuration = (tracks?: Tracks[]) => {
   return result;
 };
 
-function addLeadingZeros(num: number) {
+export function addLeadingZeros(num: number) {
   return String(num).padStart(2, '0');
 }
 
