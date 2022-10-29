@@ -117,6 +117,10 @@ const MyFavorites: NextPageFCProps = () => {
                     display: none;
                   }
                 }
+                ${dragEnterOver === index &&
+                css`
+                  border-bottom: 2px solid ${color?.[0]?.hex};
+                `}
               `}
             >
               <AtomPlayTrack
