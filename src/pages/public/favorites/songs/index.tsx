@@ -2,7 +2,6 @@
 /* eslint-disable no-unused-vars */
 import AtomBanner from '@Components/@atoms/AtomBanner';
 import AtomButton from '@Components/@atoms/AtomButton';
-import { ReorderIcon } from '@Components/@atoms/AtomCustomDrag';
 import AtomIcon from '@Components/@atoms/AtomIcon';
 import AtomImage from '@Components/@atoms/AtomImage';
 import AtomLINK from '@Components/@atoms/AtomLink';
@@ -272,7 +271,6 @@ const MyFavorites: NextPageFCProps = () => {
                   })}
                 </AtomText>
               </AtomWrapper>
-              <ReorderIcon />
             </AtomWrapper>
           );
         })}
