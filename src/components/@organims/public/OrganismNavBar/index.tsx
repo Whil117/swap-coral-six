@@ -40,8 +40,8 @@ const Sections = [
   },
   {
     id: uuidv4(),
-    name: 'My Favorites',
-    path: '/public/favorites'
+    name: 'My Songs',
+    path: '/public/favorites/songs'
   },
   {
     id: uuidv4(),

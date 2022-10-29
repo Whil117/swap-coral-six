@@ -14,12 +14,6 @@ const PublicLayout: FC = (props) => {
     }, 500);
   }, []);
 
-  useEffect(() => {
-    setTimeout(() => {
-      setfirst(true);
-    }, 500);
-  }, []);
-
   return (
     <>
       {first ? (

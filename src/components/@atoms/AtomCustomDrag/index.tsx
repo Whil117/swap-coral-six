@@ -9,12 +9,7 @@ import { css } from '@emotion/react';
 import { COLORS_ATOM } from '@Hooks/useColor';
 import useTime from '@Hooks/useTime';
 import { ISong } from '@Types/index';
-import {
-  DragControls,
-  Reorder,
-  useDragControls,
-  useMotionValue
-} from 'framer-motion';
+import { Reorder, useDragControls, useMotionValue } from 'framer-motion';
 import { useAtomValue } from 'jotai';
 import { useRouter } from 'next/router';
 import MY_FAVORITES_REDUCER_ATOM from '_jotai/favoritesSongs/reducer';
@@ -26,11 +21,8 @@ interface Props {
   onDrag: () => void;
   onFavorite: () => void;
 }
-interface Prop2s {
-  dragControls: DragControls;
-}
 
-export function ReorderIcon({ dragControls }: Prop2s) {
+export function ReorderIcon() {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -40,7 +32,7 @@ export function ReorderIcon({ dragControls }: Prop2s) {
       style={{
         zIndex: 999
       }}
-      onPointerDown={(event) => dragControls.start(event)}
+      // onPointerDown={(event) => dragControls.start(event)}
     >
       <path
         d="M 5 0 C 7.761 0 10 2.239 10 5 C 10 7.761 7.761 10 5 10 C 2.239 10 0 7.761 0 5 C 0 2.239 2.239 0 5 0 Z"
@@ -84,6 +76,7 @@ export function ReorderIcon({ dragControls }: Prop2s) {
 
 import { animate, MotionValue } from 'framer-motion';
 import { useEffect } from 'react';
+import { toast } from 'react-toastify';
 
 const inactiveShadow = '0px 0px 0px rgba(0,0,0,0.8)';
 
@@ -123,9 +116,9 @@ export const Item = ({
   const favorites = useAtomValue(MY_FAVORITES_REDUCER_ATOM);
   const dragControls = useDragControls();
   const router = useRouter();
-  const isFavorite = favorites?.some(
-    (favorites) => favorites.id === props?.album?.id
-  );
+  const isFavorite = favorites?.some((favorites) => favorites.id === props?.id);
+  console.log(props?.id);
+
   const y = useMotionValue(0);
   const boxShadow = useRaisedShadow(y);
   return (
@@ -274,7 +267,11 @@ export const Item = ({
           <AtomButton
             padding="0px"
             backgroundColor="transparent"
-            onClick={onFavorite}
+            onClick={() => {
+              onFavorite();
+
+              toast.error('Removed from your Favorites Songs');
+            }}
           >
             <AtomIcon
               width="25px"

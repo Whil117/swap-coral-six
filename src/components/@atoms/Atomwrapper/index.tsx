@@ -1,6 +1,6 @@
 import { SerializedStyles } from '@emotion/react';
 import styled from '@emotion/styled';
-import { MotionProps } from 'framer-motion';
+import { motion, MotionProps } from 'framer-motion';
 import { PointerEventHandler, RefObject, UIEventHandler } from 'react';
 export interface AtomWrapperTypes extends MotionProps {
   id?: string;
@@ -102,7 +102,7 @@ export interface AtomWrapperTypes extends MotionProps {
   dangerouslySetInnerHTML?: { __html: string };
 }
 
-export const AtomWrapper = styled.div<AtomWrapperTypes>`
+export const AtomWrapper = styled(motion.div)<AtomWrapperTypes>`
   display: flex;
   height: ${(props) => props.height ?? 'auto'};
   width: ${(props) => props.width ?? 'auto'};

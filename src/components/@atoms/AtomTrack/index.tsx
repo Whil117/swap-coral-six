@@ -5,9 +5,10 @@ import { COLORS_ATOM } from '@Hooks/useColor';
 import useTime from '@Hooks/useTime';
 import { ISong } from '@Types/index';
 import { DragControls } from 'framer-motion';
-import { useAtomValue } from 'jotai';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
+import { toast } from 'react-toastify';
 import MY_FAVORITES_REDUCER_ATOM, {
   ActionPlayer
 } from '_jotai/favoritesSongs/reducer';
@@ -28,6 +29,7 @@ const typeTracks = {
     const isFavorite = props?.favorites?.some(
       (favorites) => favorites.id === props?.album?.id
     );
+    const setFavorites = useSetAtom(MY_FAVORITES_REDUCER_ATOM);
 
     return (
       <AtomWrapper
@@ -157,7 +159,17 @@ const typeTracks = {
           <AtomButton
             padding="0px"
             backgroundColor="transparent"
-            onClick={props?.onFavorite}
+            onClick={() => {
+              if (isFavorite) {
+                setFavorites((prev) =>
+                  prev.filter((favorites) => favorites.id !== props?.album?.id)
+                );
+                toast.error('Removed from your Favorites Songs');
+              } else {
+                props?.onFavorite();
+                toast.success('Added to your Favorites songs');
+              }
+            }}
           >
             <AtomIcon
               width="25px"
@@ -184,6 +196,7 @@ const typeTracks = {
     const isFavorite = props?.favorites?.some(
       (favorites) => favorites?.id === props?.album?.id
     );
+    const setFavorites = useSetAtom(MY_FAVORITES_REDUCER_ATOM);
 
     return (
       <AtomWrapper
@@ -322,7 +335,17 @@ const typeTracks = {
           <AtomButton
             padding="0px"
             backgroundColor="transparent"
-            onClick={props?.onFavorite}
+            onClick={() => {
+              if (isFavorite) {
+                setFavorites((prev) =>
+                  prev.filter((favorites) => favorites.id !== props?.album?.id)
+                );
+                toast.error('Removed from your Favorites Songs');
+              } else {
+                props?.onFavorite();
+                toast.success('Added to your Favorites songs');
+              }
+            }}
           >
             <AtomIcon
               width="25px"
@@ -488,7 +511,13 @@ const typeTracks = {
           <AtomButton
             padding="0px"
             backgroundColor="transparent"
-            onClick={props?.onFavorite}
+            onClick={() => {
+              if (isFavorite) {
+                props?.onFavorite();
+
+                toast.error('Removed from your Favorites Songs');
+              }
+            }}
           >
             <AtomIcon
               width="25px"
