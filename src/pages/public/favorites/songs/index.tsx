@@ -119,6 +119,7 @@ const MyFavorites: NextPageFCProps = () => {
                 }
                 ${dragEnterOver === index &&
                 css`
+                  background-color: #222229;
                   border-bottom: 2px solid ${color?.[0]?.hex};
                 `}
               `}
