@@ -43,7 +43,8 @@ const MyFavorites: NextPageFCProps = () => {
         flexDirection="column"
         customCSS={css`
           display: flex;
-          gap: 10px;
+          gap: 20px;
+          margin-bottom: 35px;
         `}
       >
         {favorites?.map((item, index) => {
@@ -80,7 +81,7 @@ const MyFavorites: NextPageFCProps = () => {
               key={index}
               draggable
               customCSS={css`
-                margin-bottom: 1rem;
+                /* margin-bottom: 1rem; */
                 padding: 0.5rem;
                 display: grid;
                 grid-template-columns: 50px 1fr 1fr auto auto;
