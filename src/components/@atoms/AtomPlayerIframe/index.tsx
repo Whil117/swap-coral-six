@@ -8,6 +8,8 @@ import useIframe from '@Utils/useRefIframe';
 import { atom, useAtom, useAtomValue } from 'jotai';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
+import { toast } from 'react-toastify';
+import MY_FAVORITES_REDUCER_ATOM from '_jotai/favoritesSongs/reducer';
 import CONTROLS_PLAYER_WITH_REDUCER_ATOM from '_jotai/player/reducer';
 import AtomButton from '../AtomButton';
 import AtomIcon from '../AtomIcon';
@@ -18,6 +20,8 @@ import AtomWrapper from '../Atomwrapper';
 export const PLAY_IFRAME_ATOM = atom(false);
 
 const AtomPlayerIframe: FC = () => {
+  const [favorites, setFavorites] = useAtom(MY_FAVORITES_REDUCER_ATOM);
+  const color = useAtomValue(COLORS_ATOM);
   const [playIFRAME, setPlayIFRAME] = useAtom(PLAY_IFRAME_ATOM);
   const [controls, dispatch] = useAtom(CONTROLS_PLAYER_WITH_REDUCER_ATOM);
   const [currentTime, setCurrentTime] = useAtom(timerAtom);
@@ -61,6 +65,10 @@ const AtomPlayerIframe: FC = () => {
       }
     }
   });
+
+  const isFavorite = favorites?.some(
+    (favorites) => favorites.id === controls?.currentTrack?.id
+  );
 
   return (
     <>
@@ -130,6 +138,34 @@ const AtomPlayerIframe: FC = () => {
                   ? 'https://res.cloudinary.com/whil/image/upload/v1661706864/PREVVIDEO_icmtkr.svg'
                   : 'https://res.cloudinary.com/whil/image/upload/v1661706864/TOVIDEO_j3jb2e.svg'
               }
+            />
+          </AtomButton>
+          <AtomButton
+            padding="0px"
+            backgroundColor="transparent"
+            onClick={() => {
+              if (isFavorite) {
+                setFavorites((prev) =>
+                  prev.filter(
+                    (favorites) => favorites.id !== controls?.currentTrack?.id
+                  )
+                );
+
+                toast.error('Removed from your Favorites Songs');
+              } else {
+                setFavorites((prev) => [...prev, controls?.currentTrack ?? {}]);
+                toast.success('Added to your Favorites songs');
+              }
+            }}
+          >
+            <AtomIcon
+              width="25px"
+              height="25px"
+              customCSS={css`
+                border-radius: 10px;
+              `}
+              color={isFavorite ? color?.[0]?.hex : 'white'}
+              icon="https://res.cloudinary.com/whil/image/upload/v1665959363/love_vwgqq4.svg"
             />
           </AtomButton>
         </AtomWrapper>
