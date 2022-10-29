@@ -11,6 +11,8 @@ import CONTROLS_PLAYER_WITH_REDUCER_ATOM from '_jotai/player/reducer';
 const QueuePage: NextPageFCProps = () => {
   const [controls, dispatch] = useAtom(CONTROLS_PLAYER_WITH_REDUCER_ATOM);
   const [favorites, setFavorite] = useAtom(MY_FAVORITES_REDUCER_ATOM);
+
+  const TOTALTRACKSCONTEXT = controls?.context?.length as number;
   return (
     <AtomWrapper width="100%">
       <AtomWrapper
@@ -23,7 +25,7 @@ const QueuePage: NextPageFCProps = () => {
           gap: 10px;
         `}
       >
-        <h1>QueuePage</h1>
+        <h1>Queue</h1>
         <AtomWrapper>
           <AtomText color="white" fontSize="16px" fontWeight="bold">
             Now Playing
@@ -77,7 +79,11 @@ const QueuePage: NextPageFCProps = () => {
         </AtomText>
         <AtomWrapper>
           {controls?.context
-            ?.filter((item) => item?.id !== controls?.currentTrack?.id)
+            ?.filter((item) => {
+              const CURRENTTRACKNUMBER = controls?.currentTrack
+                ?.track_number as number;
+              return (item?.track_number as number) > CURRENTTRACKNUMBER;
+            })
             ?.sort(function (a, b) {
               if (b.track_number) {
                 if ((a.track_number as number) > b.track_number) return 1;
@@ -135,6 +141,74 @@ const QueuePage: NextPageFCProps = () => {
                 album={item as ISong}
               />
             ))}
+          {(controls?.currentTrack?.track_number as number) <=
+            TOTALTRACKSCONTEXT && (
+            <>
+              {controls?.context
+                ?.filter((item) => {
+                  const CURRENTTRACKNUMBER = controls?.currentTrack
+                    ?.track_number as number;
+                  return (item?.track_number as number) < CURRENTTRACKNUMBER;
+                })
+                ?.sort(function (a, b) {
+                  if (b.track_number) {
+                    if ((a.track_number as number) > b.track_number) return 1;
+                    if ((a.track_number as number) < b.track_number) return -1;
+                  }
+                  return 0;
+                })
+                ?.map((item) => (
+                  <AtomTrack
+                    type="playlist"
+                    key={item?.id}
+                    onPlay={() => {
+                      dispatch({
+                        type: 'SET_TRACK',
+                        payload: {
+                          currentTrack: {
+                            ...item,
+                            // artists: data?.albumById?.artists,
+                            images: item?.images as IImage[],
+                            album: item?.album,
+                            destination: {
+                              type: 'album',
+                              id: item?.album?.id as string
+                            }
+                          },
+                          context: controls?.context
+                        }
+                      });
+                    }}
+                    onFavorite={() => {
+                      const isFavorite = favorites?.some(
+                        (favorites) => favorites.id === item?.id
+                      );
+                      if (isFavorite) {
+                        setFavorite((prev) =>
+                          prev.filter((favorite) => favorite.id !== item?.id)
+                        );
+                      } else {
+                        setFavorite((prev) => [
+                          ...prev,
+                          {
+                            ...item,
+                            // artists: data?.albumById?.artists,
+                            images: item?.images as IImage[],
+                            album: item?.album,
+                            track_number: favorites.length + 1,
+                            destination: {
+                              type: 'album',
+                              id: item?.id as string
+                            }
+                          }
+                        ]);
+                      }
+                    }}
+                    album={item as ISong}
+                  />
+                ))}
+            </>
+          )}
         </AtomWrapper>
       </AtomWrapper>
     </AtomWrapper>
