@@ -6,6 +6,7 @@ import AtomIcon from '@Components/@atoms/AtomIcon';
 import AtomImage from '@Components/@atoms/AtomImage';
 import AtomLINK from '@Components/@atoms/AtomLink';
 import AtomPlayTrack from '@Components/@atoms/AtomPlayTrack';
+import AtomSEO from '@Components/@atoms/AtomSeo';
 import { AtomText } from '@Components/@atoms/AtomText';
 import AtomWrapper from '@Components/@atoms/Atomwrapper';
 import { css } from '@emotion/react';
@@ -35,6 +36,13 @@ const MyFavorites: NextPageFCProps = () => {
 
   return (
     <AtomWrapper>
+      <AtomSEO
+        title="Swap Coral Six"
+        page="My Favorites Songs"
+        image="https://res.cloudinary.com/whil/image/upload/v1662829817/swapcoralsix_s4th49.png"
+        keywords={['swapcoralsix', 'My Favorites Songs']}
+        description={`Swap Coral Six - My Favorites Songs is avaible now!`}
+      />
       <AtomBanner type="likedSongs" />
       <AtomWrapper
         padding="0px 90px"
@@ -279,5 +287,18 @@ const MyFavorites: NextPageFCProps = () => {
   );
 };
 MyFavorites.Layout = 'public';
+export async function getServerSideProps() {
+  MyFavorites.SEO = {
+    title: 'My Favorites Songs',
+    image:
+      'https://res.cloudinary.com/whil/image/upload/v1662829817/swapcoralsix_s4th49.png',
+    description: `Swap Coral Six - My Favorites Songs is avaible now!`,
+    keywords: ['swapcoralsix', 'My Favorites Songs']
+  };
+
+  return {
+    props: {}
+  };
+}
 
 export default MyFavorites;

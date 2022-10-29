@@ -3,6 +3,7 @@ import { useQuery } from '@apollo/client';
 import client from '@Apollo/client/notWSS';
 import { LYRICBYTRACKID } from '@Apollo/client/query/lyricById';
 import AtomLoader from '@Components/@atoms/AtomLoader';
+import AtomSEO from '@Components/@atoms/AtomSeo';
 import { AtomText } from '@Components/@atoms/AtomText';
 import AtomWrapper from '@Components/@atoms/Atomwrapper';
 import { css } from '@emotion/react';
@@ -55,6 +56,15 @@ const LyricByID: NextPageFC<{ id: string }> = ({ id }) => {
       width="100%"
       height={loading ? '100%' : 'auto'}
     >
+      <AtomSEO
+        title="Swap Coral Six"
+        page={`${data?.lyricByTrackId?.name} - ${data?.lyricByTrackId?.artists
+          ?.map((item) => item?.name)
+          .join(' ,')}`}
+        image="https://res.cloudinary.com/whil/image/upload/v1662829817/swapcoralsix_s4th49.png"
+        keywords={['swapcoralsix', 'Lyrics']}
+        description={`Swap Coral Six - Lyrics is avaible now!`}
+      />
       <AtomWrapper
         padding="45px"
         height={loading ? '100%' : 'auto'}

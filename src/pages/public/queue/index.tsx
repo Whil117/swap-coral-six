@@ -1,3 +1,4 @@
+import AtomSEO from '@Components/@atoms/AtomSeo';
 import { AtomText } from '@Components/@atoms/AtomText';
 import AtomTrack from '@Components/@atoms/AtomTrack';
 import AtomWrapper from '@Components/@atoms/Atomwrapper';
@@ -15,6 +16,13 @@ const QueuePage: NextPageFCProps = () => {
   const TOTALTRACKSCONTEXT = controls?.context?.length as number;
   return (
     <AtomWrapper width="100%">
+      <AtomSEO
+        title="Swap Coral Six"
+        page="Queue"
+        image="https://res.cloudinary.com/whil/image/upload/v1662829817/swapcoralsix_s4th49.png"
+        keywords={['swapcoralsix', 'Queue']}
+        description={`Swap Coral Six - Queue is avaible now!`}
+      />
       <AtomWrapper
         padding="25px"
         maxWidth="1440px"
