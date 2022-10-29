@@ -597,7 +597,7 @@ const typeBanners = {
             ${color?.[0]?.hex ?? '#0072ff'};
           @media (max-width: 980px) {
             justify-content: center;
-            width: 100%;
+            /* width: 100%; */
             height: 600px;
             padding: 0;
           }
@@ -609,7 +609,8 @@ const typeBanners = {
             flex-direction: row;
             align-items: center;
             justify-content: flex-start;
-            width: 1440px;
+            /* width: 1440px; */
+            /* padding: 0px 90px; */
             gap: 20px;
 
             @media (max-width: 980px) {

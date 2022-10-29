@@ -38,10 +38,9 @@ const MyFavorites: NextPageFCProps = () => {
     <AtomWrapper>
       <AtomBanner type="likedSongs" />
       <AtomWrapper
-        padding="25px"
-        maxWidth="1440px"
+        padding="0px 90px"
+        // width="1440px"
         flexDirection="column"
-        flexWrap="wrap"
         customCSS={css`
           display: flex;
           gap: 10px;
@@ -88,9 +87,9 @@ const MyFavorites: NextPageFCProps = () => {
                 &:hover {
                   background-color: #222229;
                 }
-                z-index: 9999999;
+                /* z-index: 9999999; */
                 gap: 10px;
-                width: 100%;
+                /* width: 100%; */
                 align-items: center;
                 cursor: pointer;
                 @media (max-width: 980px) {
@@ -172,7 +171,7 @@ const MyFavorites: NextPageFCProps = () => {
                   />
                 )}
                 <AtomWrapper>
-                  <AtomText as="p" color="white">
+                  <AtomText as="p" color="white" width="auto">
                     {item?.name}
                   </AtomText>
                   {item?.artists?.length !== 0 && (
@@ -205,6 +204,7 @@ const MyFavorites: NextPageFCProps = () => {
                             key={artist?.id}
                             fontSize="14px"
                             opacity="0.5"
+                            width="auto"
                             color="white"
                             customCSS={css`
                               &:hover {
@@ -223,8 +223,9 @@ const MyFavorites: NextPageFCProps = () => {
               <AtomLINK
                 link={`/public/album/${item.album?.id}`}
                 textDecoration="underline"
+                width="auto"
               >
-                <AtomText color="white" textDecoration="underline">
+                <AtomText color="white" textDecoration="underline" width="auto">
                   {item?.album?.name}
                 </AtomText>
               </AtomLINK>
@@ -232,6 +233,7 @@ const MyFavorites: NextPageFCProps = () => {
               <AtomWrapper
                 gap="10px"
                 customCSS={css`
+                  width: auto;
                   grid-column: 4;
                   align-self: center;
                   justify-self: center;
