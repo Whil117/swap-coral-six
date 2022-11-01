@@ -106,6 +106,7 @@ const AtomPlayByAlbumPlaylist: FC<Props> = (props) => {
               );
               toast.error('Removed from your Favorites Playlists');
             } else {
+              toast.success('Added to your Favorites Playlists');
               setFavoritePlaylist((prev) => [
                 ...prev,
                 props.context as IlistPlaylistsBySlug
@@ -119,6 +120,7 @@ const AtomPlayByAlbumPlaylist: FC<Props> = (props) => {
               );
               toast.error('Removed from your Favorites Albums');
             } else {
+              toast.success('Added to your Favorites Albums');
               setFavoritesALbums((prev) => [
                 ...prev,
                 props.context as IAlbumType
