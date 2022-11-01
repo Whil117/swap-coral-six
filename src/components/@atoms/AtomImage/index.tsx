@@ -1,12 +1,18 @@
 import { SerializedStyles } from '@emotion/react';
 import styled from '@emotion/styled';
 import { motion, MotionProps } from 'framer-motion';
-import NextImage from 'next/image';
+import NextImage, { ImageProps } from 'next/image';
 import { FC } from 'react';
 export interface AtomNextImageTypes {
   src: string;
   alt: string;
 }
+
+const NewNextImage = NextImage as unknown as FC<
+  ImageProps & {
+    layout: 'fill';
+  }
+>;
 
 export interface AtomImageTypes extends MotionProps {
   width?: string;
@@ -79,7 +85,7 @@ const AtomImage: FC<AtomImageProps> = (props) => {
     <AtomImageStyled {...{ ...props, src: undefined }}>
       {isNextImage ? (
         <AtomImageWrapperStyled>
-          <NextImage
+          <NewNextImage
             src={src ?? DEFAULTIMG}
             alt={`${alt}image`}
             layout="fill"
