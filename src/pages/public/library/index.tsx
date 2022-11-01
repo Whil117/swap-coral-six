@@ -113,6 +113,20 @@ const PageLibrary: NextPageFCProps = () => {
     </AtomWrapper>
   );
 };
+
+export async function getServerSideProps() {
+  PageLibrary.SEO = {
+    title: 'Library',
+    image:
+      'https://res.cloudinary.com/whil/image/upload/v1662829817/swapcoralsix_s4th49.png',
+    description: `Swap Coral Six - Library is avaible now!`,
+    keywords: ['swapcoralsix', 'Library']
+  };
+
+  return {
+    props: {}
+  };
+}
 PageLibrary.Layout = 'public';
 
 export default PageLibrary;
