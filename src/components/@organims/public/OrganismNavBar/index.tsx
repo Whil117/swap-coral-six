@@ -41,7 +41,14 @@ const Sections = [
   {
     id: uuidv4(),
     name: 'My Songs',
+    icon: 'https://res.cloudinary.com/whil/image/upload/v1665959363/love_vwgqq4.svg',
     path: '/public/favorites/songs'
+  },
+  {
+    id: uuidv4(),
+    name: 'My Library',
+    icon: 'https://res.cloudinary.com/whil/image/upload/v1667278562/frame_hgkbid.svg',
+    path: '/public/library'
   },
   {
     id: uuidv4(),
@@ -170,21 +177,6 @@ const OrganismNavbar: FC = () => {
               </AtomText>
             </AtomButton>
           ))}
-          {/* <AtomWrapper flexDirection="row" alignItems="center" gap="5px">
-            <AtomImage
-              alt="whil"
-              width="25px"
-              height="25px"
-              src="https://res.cloudinary.com/whil/image/upload/v1663364528/whil_qc16xc.svg"
-            />
-            <AtomLINK
-              textDecoration="underline"
-              color="white"
-              href="https://www.linkedin.com/in/ivangarciawhil117/"
-            >
-              Whil
-            </AtomLINK>
-          </AtomWrapper> */}
         </AtomWrapper>
       </AtomWrapper>
     </AtomWrapper>

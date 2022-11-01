@@ -3,11 +3,13 @@ import AtomPlayerIframe from '@Components/@atoms/AtomPlayerIframe';
 import AtomWrapper from '@Components/@atoms/Atomwrapper';
 import OrganismNavbar from '@Components/@organims/public/OrganismNavBar';
 import { css } from '@emotion/react';
+import { useAtomValue } from 'jotai';
 import { FC, useEffect, useState } from 'react';
+import CONTROLS_PLAYER_WITH_REDUCER_ATOM from '_jotai/player/reducer';
 
 const PublicLayout: FC = (props) => {
   const [first, setfirst] = useState(false);
-
+  const controls = useAtomValue(CONTROLS_PLAYER_WITH_REDUCER_ATOM);
   useEffect(() => {
     setTimeout(() => {
       setfirst(true);
@@ -79,7 +81,7 @@ const PublicLayout: FC = (props) => {
               {props?.children}
             </AtomWrapper>
           </AtomWrapper>
-          <AtomPlayerIframe />
+          {controls?.currentTrack?.id ? <AtomPlayerIframe /> : null}
         </AtomWrapper>
       ) : (
         <AtomLoader

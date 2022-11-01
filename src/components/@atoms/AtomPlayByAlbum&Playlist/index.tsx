@@ -5,7 +5,12 @@ import clipBoard from '@Utils/clipBoard';
 import useIframe from '@Utils/useRefIframe';
 import { useAtom, useAtomValue } from 'jotai';
 import { useRouter } from 'next/router';
+import {
+  LISTFAVORITES_ALBUMS_ATOM,
+  LISTFAVORITES_PLAYLISTS_ATOM
+} from 'pages/public/library';
 import { FC } from 'react';
+import { toast } from 'react-toastify';
 import CONTROLS_PLAYER_WITH_REDUCER_ATOM from '_jotai/player/reducer';
 import AtomButton from '../AtomButton';
 import AtomIcon from '../AtomIcon';
@@ -29,6 +34,18 @@ const AtomPlayByAlbumPlaylist: FC<Props> = (props) => {
   const [playIFRAME, setPlayIFRAME] = useAtom(PLAY_IFRAME_ATOM);
   const isValidContext = controls?.origin?.query?.id === router.query?.id;
   const spotifyEmbedWindow = useIframe();
+  const [favoritesPlaylists, setFavoritePlaylist] = useAtom(
+    LISTFAVORITES_PLAYLISTS_ATOM
+  );
+  const [favoritesAlbums, setFavoritesALbums] = useAtom(
+    LISTFAVORITES_ALBUMS_ATOM
+  );
+
+  const ACCDATA = [...favoritesPlaylists, ...favoritesAlbums];
+  const findFavorite = ACCDATA?.some((data) => data?.id === props?.context?.id);
+
+  const pathPlaylist = router.asPath?.includes('playlist');
+  const pathAlbum = router.asPath?.includes('album');
 
   return (
     <AtomWrapper
@@ -76,6 +93,46 @@ const AtomPlayByAlbumPlaylist: FC<Props> = (props) => {
               }
             }
           `}
+        />
+      </AtomButton>
+      <AtomButton
+        padding="0px"
+        backgroundColor="transparent"
+        onClick={() => {
+          if (pathPlaylist) {
+            if (findFavorite) {
+              setFavoritePlaylist((prev) =>
+                prev?.filter((item) => item.id !== props?.context?.id)
+              );
+              toast.error('Removed from your Favorites Playlists');
+            } else {
+              setFavoritePlaylist((prev) => [
+                ...prev,
+                props.context as IlistPlaylistsBySlug
+              ]);
+            }
+          }
+          if (pathAlbum) {
+            if (findFavorite) {
+              setFavoritesALbums((prev) =>
+                prev?.filter((item) => item.id !== props?.context?.id)
+              );
+              toast.error('Removed from your Favorites Albums');
+            } else {
+              setFavoritesALbums((prev) => [
+                ...prev,
+                props.context as IAlbumType
+              ]);
+            }
+          }
+        }}
+      >
+        <AtomIcon
+          customCSS={css`
+            border-radius: 10px;
+          `}
+          color={findFavorite ? colors?.[0]?.hex : '#fdfdfd'}
+          icon="https://res.cloudinary.com/whil/image/upload/v1665959363/love_vwgqq4.svg"
         />
       </AtomButton>
       <AtomButton

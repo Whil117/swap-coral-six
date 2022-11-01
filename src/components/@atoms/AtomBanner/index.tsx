@@ -684,6 +684,117 @@ const typeBanners = {
         </AtomWrapper>
       </AtomWrapper>
     );
+  },
+  library: () => {
+    const controls = useAtomValue(CONTROLS_PLAYER_WITH_REDUCER_ATOM);
+    const color = UseColor(controls?.currentTrack?.images?.[0]?.url as string);
+    return (
+      <AtomWrapper
+        id="background-dynamic-color"
+        customCSS={css`
+          min-height: 500px;
+          align-items: flex-start;
+          padding: 0px 90px;
+          justify-content: center;
+          transition: all 0.3s ease;
+          background: linear-gradient(
+              180deg,
+              rgba(100, 100, 100, 0) 0%,
+              #121216 100%
+            ),
+            ${color?.[0]?.hex ?? '#0072ff'};
+          @media (max-width: 980px) {
+            justify-content: center;
+            /* width: 100%; */
+            height: 600px;
+            padding: 0;
+          }
+        `}
+      >
+        <AtomWrapper
+          customCSS={css`
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 20px;
+
+            @media (max-width: 980px) {
+              flex-direction: column;
+              width: auto;
+              padding: 0;
+            }
+          `}
+        >
+          <AtomIcon
+            width="100px"
+            height="100px"
+            customCSS={css`
+              border-radius: 10px;
+              background: ${color?.[0]?.hex ?? '#32323d'};
+              padding: 60px;
+              svg {
+                path {
+                  stroke: white;
+                }
+              }
+            `}
+            color={color?.[0]?.hex}
+            icon="https://res.cloudinary.com/whil/image/upload/v1667278562/frame_hgkbid.svg"
+          />
+          <AtomWrapper
+            customCSS={css`
+              max-width: 1160px;
+              display: grid;
+              gap: 10px;
+              /* width: 900px; */
+              @media (max-width: 1440px) {
+                width: 500px;
+              }
+              @media (max-width: 1240px) {
+                width: 350px;
+              }
+              @media (max-width: 980px) {
+                width: auto;
+                margin: 0 10px;
+              }
+            `}
+          >
+            <AtomText
+              as="h1"
+              id="headerBarScrollTitle"
+              fontWeight="bold"
+              color="white"
+              customCSS={css`
+                margin: 0;
+                font-size: 48px;
+                @media (max-width: 1440px) {
+                  font-size: 36px;
+                }
+                @media (max-width: 890px) {
+                  font-size: 28px;
+                }
+                @media (max-width: 778px) {
+                  font-size: 22px;
+                  text-align: center;
+                }
+              `}
+            >
+              My Library
+            </AtomText>
+            <AtomWrapper
+              alignItems="center"
+              customCSS={css`
+                width: auto;
+                gap: 10px;
+                display: flex;
+                justify-content: flex-start;
+              `}
+            ></AtomWrapper>
+          </AtomWrapper>
+        </AtomWrapper>
+      </AtomWrapper>
+    );
   }
 };
 
