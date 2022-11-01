@@ -7,7 +7,8 @@ import Normalize from '@Styles/global/normalize';
 import { Provider } from 'jotai';
 import Layouts from 'layout';
 import { SessionProvider } from 'next-auth/react';
-import type { AppPropsWithLayout } from 'next/app';
+import type { AppContext, AppPropsWithLayout } from 'next/app';
+import App from 'next/app';
 import Script from 'next/script';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -55,5 +56,14 @@ const MyApp = ({
     </Provider>
   );
 };
+MyApp.getInitialProps = async (appContext: AppContext) => {
+  const appProps = await App.getInitialProps(appContext);
+  if (appContext.ctx.res?.statusCode === 404) {
+    appContext.ctx.res.writeHead(302, { Location: `/` });
+    appContext.ctx.res.end();
+    return;
+  }
 
+  return appProps;
+};
 export default MyApp;

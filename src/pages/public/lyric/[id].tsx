@@ -9,6 +9,7 @@ import AtomWrapper from '@Components/@atoms/Atomwrapper';
 import { css } from '@emotion/react';
 import UseColor from '@Hooks/useColor';
 import { IQueryFilter } from '@Types/index';
+import isBackDark from '@Utils/isBlackOrWhite';
 import { useAtomValue } from 'jotai';
 import { NextPageContext, NextPageFC } from 'next';
 import { useRouter } from 'next/router';
@@ -49,12 +50,22 @@ const LyricByID: NextPageFC<{ id: string }> = ({ id }) => {
         });
     }
   }, [controls]);
+  console.log(data);
 
   return (
     <AtomWrapper
       backgroundColor={color?.[0]?.hex as string}
       width="100%"
       height={loading ? '100%' : 'auto'}
+      customCSS={css`
+        ${typeof data === 'undefined' &&
+        css`
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          height: 100%;
+        `}
+      `}
     >
       <AtomSEO
         title="Swap Coral Six"
@@ -73,24 +84,44 @@ const LyricByID: NextPageFC<{ id: string }> = ({ id }) => {
           flex-direction: ${loading ? 'row' : 'column'};
           justify-content: center;
           align-items: ${loading ? 'center' : 'flex-start'};
+          ${typeof data === 'undefined' &&
+          css`
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+          `}
         `}
       >
         {loading ? (
           <AtomLoader type="small" colorLoading="white" isLoading />
         ) : (
           <>
+            {typeof data === 'undefined' && (
+              <AtomText
+                color={isBackDark(color?.[0]?.hex)}
+                fontSize="25px"
+                fontWeight="bold"
+              >
+                This track doesnt have a lyric, Sorry!
+              </AtomText>
+            )}
             <AtomWrapper flexDirection="row" alignItems="center" gap="10px">
               {data?.lyricByTrackId?.artists?.map((item, index) => (
                 <AtomText
                   key={item?.id}
                   fontWeight="bold"
                   fontSize="30px"
-                  color="white"
+                  color={isBackDark(color?.[0]?.hex)}
                 >
                   {index === 0 ? item?.name : `, ${item?.name}`}
                 </AtomText>
               ))}
-              <AtomText fontWeight="bold" fontSize="30px" color="white">
+              <AtomText
+                fontWeight="bold"
+                fontSize="30px"
+                color={isBackDark(color?.[0]?.hex)}
+              >
                 {data?.lyricByTrackId?.name}
               </AtomText>
             </AtomWrapper>
@@ -108,17 +139,30 @@ const LyricByID: NextPageFC<{ id: string }> = ({ id }) => {
               >
                 <AtomText
                   fontSize="30px"
-                  color="black"
-                  customCSS={css`
-                    color: white;
-                  `}
+                  // color="black"
+                  // customCSS={css`
+                  //   color: white;
+                  // `}
+                  color={isBackDark(color?.[0]?.hex)}
                 >
                   {item?.phrase}
                 </AtomText>
               </AtomWrapper>
             ))}
 
-            <AtomText fontSize="13px">Whil Inc.</AtomText>
+            <AtomText
+              fontSize="16px"
+              fontWeight="bold"
+              color={isBackDark(color?.[0]?.hex)}
+              customCSS={css`
+                ${typeof data === 'undefined' &&
+                css`
+                  text-align: center;
+                `}
+              `}
+            >
+              WhiL!
+            </AtomText>
           </>
         )}
       </AtomWrapper>
