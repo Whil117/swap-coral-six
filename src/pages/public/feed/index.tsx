@@ -85,7 +85,7 @@ const Public: NextPageFCProps = () => {
         customCSS={css`
           min-height: 240px;
           align-items: flex-start;
-          padding: 0px 90px;
+          padding: 0px 45px;
           justify-content: center;
           transition: all 0.3s ease;
           background: linear-gradient(
@@ -107,7 +107,7 @@ const Public: NextPageFCProps = () => {
         </AtomText>
       </AtomWrapper>
       <AtomWrapper
-        padding="0px 90px"
+        padding="0px 45px"
         maxWidth="1440px"
         flexDirection="column"
         flexWrap="wrap"
