@@ -83,7 +83,7 @@ const Public: NextPageFCProps = () => {
       />
       <AtomWrapper
         customCSS={css`
-          min-height: 240px;
+          min-height: 320px;
           align-items: flex-start;
           padding: 0px 45px;
           justify-content: center;
