@@ -2,6 +2,7 @@ import { css } from '@emotion/react';
 import { COLORS_ATOM } from '@Hooks/useColor';
 import { IAlbumType, IlistPlaylistsBySlug, ISong } from '@Types/index';
 import clipBoard from '@Utils/clipBoard';
+import isBackDark from '@Utils/isBlackOrWhite';
 import useIframe from '@Utils/useRefIframe';
 import { useAtom, useAtomValue } from 'jotai';
 import { useRouter } from 'next/router';
@@ -89,7 +90,7 @@ const AtomPlayByAlbumPlaylist: FC<Props> = (props) => {
             svg {
               path {
                 fill: none !important;
-                stroke: #ffffff;
+                stroke: ${isBackDark(colors?.[0]?.hex)};
               }
             }
           `}
