@@ -52,6 +52,7 @@ type Props = {
   }[];
   defaultText?: string;
   customCSS?: SerializedStyles;
+  customLabelCSS?: SerializedStyles;
   ref?: Ref<any>;
 };
 
@@ -92,6 +93,7 @@ const AtomInput = (props: Props) => {
               font-weight: 600;
               margin: 0px 0px 0px 0px;
               padding: 0px 0px 0px 5px;
+              ${props?.customLabelCSS}
             `}
           >
             {props.label}

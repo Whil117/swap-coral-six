@@ -3,17 +3,19 @@ import { useQuery } from '@apollo/client';
 import client from '@Apollo/client/notWSS';
 import { LYRICBYTRACKID } from '@Apollo/client/query/lyricById';
 import AtomLoader from '@Components/@atoms/AtomLoader';
+import AtomLyric from '@Components/@atoms/AtomLyric';
 import AtomSEO from '@Components/@atoms/AtomSeo';
 import { AtomText } from '@Components/@atoms/AtomText';
 import AtomWrapper from '@Components/@atoms/Atomwrapper';
 import { css } from '@emotion/react';
 import UseColor from '@Hooks/useColor';
+import { timerAtom } from '@Hooks/useTimerTrack';
 import { IQueryFilter } from '@Types/index';
 import isBackDark from '@Utils/isBlackOrWhite';
 import { useAtomValue } from 'jotai';
 import { NextPageContext, NextPageFC } from 'next';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import CONTROLS_PLAYER_WITH_REDUCER_ATOM from '_jotai/player/reducer';
 
 const LyricByID: NextPageFC<{ id: string }> = ({ id }) => {
@@ -32,6 +34,7 @@ const LyricByID: NextPageFC<{ id: string }> = ({ id }) => {
       }
     }
   );
+  const currentTime = useAtomValue(timerAtom);
 
   useEffect(() => {
     if (router?.asPath?.includes('/lyric')) {
@@ -50,7 +53,15 @@ const LyricByID: NextPageFC<{ id: string }> = ({ id }) => {
         });
     }
   }, [controls]);
-  console.log(data);
+  useMemo(() => {
+    const sectionId = document.getElementById(`${currentTime}`);
+    if (sectionId) {
+      sectionId?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center'
+      });
+    }
+  }, [currentTime]);
 
   return (
     <AtomWrapper
@@ -80,6 +91,8 @@ const LyricByID: NextPageFC<{ id: string }> = ({ id }) => {
         padding="45px"
         height={loading ? '100%' : 'auto'}
         customCSS={css`
+          scroll-behavior: smooth; /* <--- */
+          scroll-margin-top: 1000px;
           display: flex;
           flex-direction: ${loading ? 'row' : 'column'};
           justify-content: center;
@@ -122,32 +135,43 @@ const LyricByID: NextPageFC<{ id: string }> = ({ id }) => {
                 fontSize="30px"
                 color={isBackDark(color?.[0]?.hex)}
               >
+                -
+              </AtomText>
+              <AtomText
+                fontWeight="bold"
+                fontSize="30px"
+                color={isBackDark(color?.[0]?.hex)}
+              >
                 {data?.lyricByTrackId?.name}
               </AtomText>
             </AtomWrapper>
 
-            {data?.lyricByTrackId?.lyrics?.map((item) => (
-              <AtomWrapper
-                key={item?.id}
-                customCSS={css`
-                  margin-top: 20px;
-                  font-family: 'Open Sans', sans-serif;
-                  font-size: 2rem;
-                  display: flex;
-                  flex-direction: column;
-                `}
-              >
-                <AtomText
-                  fontSize="30px"
-                  // color="black"
-                  // customCSS={css`
-                  //   color: white;
-                  // `}
-                  color={isBackDark(color?.[0]?.hex)}
-                >
-                  {item?.phrase}
-                </AtomText>
-              </AtomWrapper>
+            {data?.lyricByTrackId?.lyrics?.map((paragraph) => (
+              <>
+                {paragraph?.start ? (
+                  <AtomLyric
+                    key={paragraph?.id}
+                    type="read"
+                    phrase={paragraph?.phrase as string}
+                    id={paragraph?.id as string}
+                    start={paragraph?.start as number}
+                    artists={paragraph?.artists}
+                    notifies={paragraph?.notifies}
+                    translates={paragraph?.translates}
+                  />
+                ) : (
+                  <AtomLyric
+                    key={paragraph?.id}
+                    type="edit"
+                    phrase={paragraph?.phrase as string}
+                    id={paragraph?.id as string}
+                    start={paragraph?.start as number}
+                    artists={paragraph?.artists}
+                    notifies={paragraph?.notifies}
+                    translates={paragraph?.translates}
+                  />
+                )}
+              </>
             ))}
 
             <AtomText
