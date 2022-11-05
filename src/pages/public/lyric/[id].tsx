@@ -56,10 +56,25 @@ const LyricByID: NextPageFC<{ id: string }> = ({ id }) => {
   useMemo(() => {
     const sectionId = document.getElementById(`${currentTime}`);
     if (sectionId) {
+      const position = sectionId.getBoundingClientRect();
       sectionId?.scrollIntoView({
         behavior: 'smooth',
         block: 'center'
       });
+      if (position.top >= 0 && position.bottom <= window.innerHeight) {
+        console.log(
+          'Element is fully visible in screen',
+          position.top >= 0 && position.bottom <= window.innerHeight
+        );
+      }
+
+      // checking for partial visibility
+      if (position.top < window.innerHeight && position.bottom >= 0) {
+        console.log(
+          'Element is partially visible in screen0',
+          position.top < window.innerHeight && position.bottom >= 0
+        );
+      }
     }
   }, [currentTime]);
 

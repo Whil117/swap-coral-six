@@ -80,14 +80,19 @@ const typeLyric = (props: Props) => ({
         `}
       >
         <AtomText
-          fontSize="30px"
-          color="black"
+          fontSize="32px"
+          color="#121216"
           customCSS={css`
-            ${props?.start &&
-            (props.currentTime as number) >= props?.start &&
+            font-family: 'Gotham', sans-serif;
+            ${(props?.currentTime as number) >= (props?.start as number) &&
             css`
               color: white;
-            `}
+            /* `}
+            ${(props?.start as number) + 2 < (props?.currentTime as number) &&
+            css`
+              color: white;
+              opacity: 0.8;
+            `} */
             &:hover {
               cursor: pointer;
               color: white;
