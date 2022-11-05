@@ -177,7 +177,7 @@ const LyricByID: NextPageFC<{ id: string }> = ({ id }) => {
                 ) : (
                   <AtomLyric
                     key={paragraph?.id}
-                    type="edit"
+                    type="view"
                     phrase={paragraph?.phrase as string}
                     id={paragraph?.id as string}
                     start={paragraph?.start as number}

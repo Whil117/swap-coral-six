@@ -87,12 +87,7 @@ const typeLyric = (props: Props) => ({
             ${(props?.currentTime as number) >= (props?.start as number) &&
             css`
               color: white;
-            /* `}
-            ${(props?.start as number) + 2 < (props?.currentTime as number) &&
-            css`
-              color: white;
-              opacity: 0.8;
-            `} */
+            `}
             &:hover {
               cursor: pointer;
               color: white;
