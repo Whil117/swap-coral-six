@@ -16,6 +16,7 @@ import { atom, useAtom, useSetAtom } from 'jotai';
 import { ISBOTTOM_ATOM } from 'layout/public/VIEW';
 import { useRouter } from 'next/router';
 import { FC, useState } from 'react';
+
 type Props = {
   type: 'artists' | 'albums' | 'playlist';
 };
@@ -32,7 +33,7 @@ const LISTBYTYPE_ATOM = atom<ATOM>({
 const OrganismListByType: FC<Props> = (props) => {
   const [loading, setLoading] = useState(true);
   const setBottomView = useSetAtom(ISBOTTOM_ATOM);
-  const [STATE, SETSTATE] = useAtom(LISTBYTYPE_ATOM);
+  const [listByType, setListByType] = useAtom(LISTBYTYPE_ATOM);
   const router = useRouter();
   const { refetch } = useQuery<IQueryFilter<'listByType'>>(LISTBYTYPE, {
     fetchPolicy: 'cache-and-network',
@@ -47,12 +48,12 @@ const OrganismListByType: FC<Props> = (props) => {
           setLoading(true);
         }
       });
-      const AAAA = data?.listByType?.[props.type] as
+      const TypeData = data?.listByType?.[props.type] as
         | IAlbumType[]
         | IArtist[]
         | IlistPlaylistsBySlug[];
-      SETSTATE((prev) => ({
-        [props.type]: [...(prev?.[props.type] ?? []), ...(AAAA ?? [])]
+      setListByType((prev) => ({
+        [props.type]: [...(prev?.[props.type] ?? []), ...(TypeData ?? [])]
       }));
       setLoading(false);
     }
@@ -93,7 +94,7 @@ const OrganismListByType: FC<Props> = (props) => {
                 gap: 10px;
               `}
             >
-              {STATE?.[item as keyof typeof STATE]?.map((props) => (
+              {listByType?.[item as keyof typeof listByType]?.map((props) => (
                 <AtomCard
                   key={props?.id}
                   {...props}
