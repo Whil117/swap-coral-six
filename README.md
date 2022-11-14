@@ -7,11 +7,13 @@ Swap coral six is a project about music inspired in Spotify, I se the Spotify AP
 ## **Environment Variables**
 
 This Application needs some variables.
-**1.NEXT_PUBLIC_SPOTIFY_CLIENT_ID**: _--YOUR SPOTIFY CLIENT ID--_
-**2.NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET**: _--YOUR SPOTIFY CLIENT SECRET--_
-**3.NEXT_PUBLIC_GRAPHQL_SERVER_URL**: _---URL LOCALHOST OR DOMAIN--_
-**4.NEXTAUTH_SECRET**: _---AUTHSCRET FOR NEXTAUTH KEY---_
-**5.MONGODB_URI**: _---URL MONGODB CONNECTION---_
+
+| **1.NEXT_PUBLIC_SPOTIFY_CLIENT_ID**     | _--YOUR SPOTIFY CLIENT ID--_       |
+| --------------------------------------- | ---------------------------------- |
+| **2.NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET** | _--YOUR SPOTIFY CLIENT SECRET--_   |
+| **3.NEXT_PUBLIC_GRAPHQL_SERVER_URL**    | _---URL LOCALHOST OR DOMAIN--_     |
+| **4.NEXTAUTH_SECRET**                   | _---AUTHSCRET FOR NEXTAUTH KEY---_ |
+| **5.MONGODB_URI**                       | _---URL MONGODB CONNECTION---_     |
 
 **1.NEXT_PUBLIC_SPOTIFY_CLIENT_ID & NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET **
 
