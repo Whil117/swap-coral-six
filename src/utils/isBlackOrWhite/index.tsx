@@ -3,7 +3,6 @@ type Input = {
   g: number;
   b: number;
 };
-
 const TrainedNet = (input: Input) => {
   const convert = new Float32Array([input['r'], input['g'], input['b']]);
   return {
