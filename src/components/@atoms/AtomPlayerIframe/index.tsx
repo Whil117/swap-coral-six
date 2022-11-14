@@ -4,6 +4,7 @@ import { COLORS_ATOM } from '@Hooks/useColor';
 import { addLeadingZeros } from '@Hooks/useTime';
 import useTimer, { timerAtom } from '@Hooks/useTimerTrack';
 import convertToSecondsAndMinutes from '@Utils/convertToSecontsAndMinutes';
+import isBackDark from '@Utils/isBlackOrWhite';
 import useIframe from '@Utils/useRefIframe';
 import { atom, useAtom, useAtomValue } from 'jotai';
 import { useRouter } from 'next/router';
@@ -202,6 +203,13 @@ const AtomPlayerIframe: FC = () => {
                   }
                 }}
                 customCSS={css`
+                  padding: 5px;
+                  ${controls.controls?.repeat || controls.controls?.repeatByOne
+                    ? css`
+                        background-color: ${colors?.[0]?.hex};
+                      `
+                    : css``}
+
                   @media (max-width: 980px) {
                     display: none;
                   }
@@ -214,13 +222,14 @@ const AtomPlayerIframe: FC = () => {
                       : 'https://res.cloudinary.com/whil/image/upload/v1666418101/repeate-one_genumq.svg'
                   }
                   width="22px"
+                  className="hoverIcon2"
                   height="22px"
                   customCSS={css`
                     svg {
                       path {
                         stroke: ${controls.controls?.repeat ||
                         controls.controls?.repeatByOne
-                          ? colors?.[0]?.hex
+                          ? isBackDark(colors?.[0]?.hex)
                           : 'white'};
                       }
                     }
@@ -245,6 +254,17 @@ const AtomPlayerIframe: FC = () => {
                   });
                 }}
                 customCSS={css`
+                  padding: 5px;
+                  &:hover {
+                    background-color: ${colors?.[0]?.hex};
+                    .hoverIcon {
+                      svg {
+                        path {
+                          stroke: ${isBackDark(colors?.[0]?.hex)};
+                        }
+                      }
+                    }
+                  }
                   @media (max-width: 980px) {
                     display: none;
                   }
@@ -254,6 +274,7 @@ const AtomPlayerIframe: FC = () => {
                   icon="https://res.cloudinary.com/whil/image/upload/v1661401539/previous_sqclao.svg"
                   width="22px"
                   height="22px"
+                  className="hoverIcon"
                   customCSS={css`
                     svg {
                       path {
@@ -305,6 +326,19 @@ const AtomPlayerIframe: FC = () => {
                   });
                 }}
                 customCSS={css`
+                  padding: 5px;
+
+                  &:hover {
+                    background-color: ${colors?.[0]?.hex};
+                    .hoverIcon {
+                      svg {
+                        path {
+                          stroke: ${isBackDark(colors?.[0]?.hex)};
+                        }
+                      }
+                    }
+                  }
+
                   @media (max-width: 980px) {
                     display: none;
                   }
@@ -313,6 +347,7 @@ const AtomPlayerIframe: FC = () => {
                 <AtomIcon
                   icon="https://res.cloudinary.com/whil/image/upload/v1661401538/next_mudtaa.svg"
                   width="22px"
+                  className="hoverIcon"
                   height="22px"
                   customCSS={css`
                     svg {
@@ -337,6 +372,13 @@ const AtomPlayerIframe: FC = () => {
                   });
                 }}
                 customCSS={css`
+                  padding: 5px;
+                  ${controls.controls?.aleatory
+                    ? css`
+                        background-color: ${colors?.[0]?.hex};
+                      `
+                    : css``}
+
                   @media (max-width: 980px) {
                     display: none;
                   }
@@ -350,7 +392,7 @@ const AtomPlayerIframe: FC = () => {
                     svg {
                       path {
                         stroke: ${controls.controls?.aleatory
-                          ? colors?.[0]?.hex
+                          ? isBackDark(colors?.[0]?.hex)
                           : 'white'};
                       }
                     }
@@ -535,10 +577,17 @@ const AtomPlayerIframe: FC = () => {
             backgroundColor="transparent"
             padding="0px"
             customCSS={css`
+              padding: 5px;
+              align-items: center;
+              justify-content: center;
+              ${router?.asPath?.includes('/lyric')
+                ? css`
+                    background-color: ${colors?.[0]?.hex};
+                  `
+                : css``}
               ${router?.asPath?.includes('/lyric') &&
               css`
                 border-bottom: 2px solid ${colors?.[0]?.hex};
-                padding-bottom: 10px;
               `}
             `}
             onClick={() => {
@@ -565,7 +614,7 @@ const AtomPlayerIframe: FC = () => {
               height="22px"
               color={
                 router?.asPath?.includes('/lyric')
-                  ? (colors?.[0]?.hex as string)
+                  ? isBackDark(colors?.[0]?.hex)
                   : 'white'
               }
             />
@@ -584,13 +633,20 @@ const AtomPlayerIframe: FC = () => {
                   });
             }}
             customCSS={css`
+              padding: 5px;
+              align-items: center;
+              justify-content: center;
+              ${router?.asPath?.includes('/queue')
+                ? css`
+                    background-color: ${colors?.[0]?.hex};
+                  `
+                : css``}
               @media (max-width: 980px) {
                 display: none;
               }
               ${router?.asPath?.includes('/queue') &&
               css`
                 border-bottom: 2px solid ${colors?.[0]?.hex};
-                padding-bottom: 10px;
               `}
             `}
           >
@@ -602,7 +658,7 @@ const AtomPlayerIframe: FC = () => {
                 svg {
                   path {
                     stroke: ${router?.asPath?.includes('/queue')
-                      ? (colors?.[0]?.hex as string)
+                      ? isBackDark(colors?.[0]?.hex)
                       : 'white'};
                   }
                 }
