@@ -38,3 +38,20 @@ NEXTAUTH_SECRET=_cvjWtBySvxBzkKMcHtMj3VNcQW_
 You need create a database for save data from swap coral six
 Example:
 MONGODB_URI:_mongodb+srv://usernamepassword@clusterexample.mongodb.net/?retryWrites=true&w=majority_
+
+##Structure Folders
+![](https://res.cloudinary.com/whil/image/upload/v1668404763/FOLDERS_etamdm.png)
+
+**1.BACKEND GRAPHQL**
+If you want to know how i created the backend. you can watch the folder, I'm using microservices for this project with apollo-server-micro
+apollo/server/graphpl
+
+**2. FRONTEND**
+I have created a components for reuse this logic in other pages. You can watch this components using in pages
+
+**3.CONFIG**
+1.Config for GRAPHQL SERVER AND MONGODB URI
+![](https://res.cloudinary.com/whil/image/upload/v1668405185/CONNFIGG_gphkqw.png)
+
+2.Config for Spotify Credentials and create Token Public
+![](https://res.cloudinary.com/whil/image/upload/v1668405209/CONFI2_bcyfnx.png)
