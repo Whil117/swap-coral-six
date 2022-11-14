@@ -1,34 +1,38 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# **Swap Coral Six - Player Music**
 
-## Getting Started
+the succesor of Spotify
+Swap coral six is a project about music inspired in Spotify, I se the Spotify API combined ith Graphql and you can listen music without limits and announcements totally free
+![](https://res.cloudinary.com/whil/image/upload/v1662829817/swapcoralsix_s4th49.png)
 
-First, run the development server:
+## **Environment Variables**
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+This Application needs some variables.
+**1.NEXT_PUBLIC_SPOTIFY_CLIENT_ID**: _--YOUR SPOTIFY CLIENT ID--_
+**2.NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET**: _--YOUR SPOTIFY CLIENT SECRET--_
+**3.NEXT_PUBLIC_GRAPHQL_SERVER_URL**: _---URL LOCALHOST OR DOMAIN--_
+**4.NEXTAUTH_SECRET**: _---AUTHSCRET FOR NEXTAUTH KEY---_
+**5.MONGODB_URI**: _---URL MONGODB CONNECTION---_
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**1.NEXT_PUBLIC_SPOTIFY_CLIENT_ID & NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET **
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+The first step is go to https://developer.spotify.com/dashboard/applications and create a project
+![](https://res.cloudinary.com/whil/image/upload/v1668403391/SWAAAP_zz545x.png)
+So This project from Console Spotify has a client id and a client secret
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+**2.NEXT_PUBLIC_GRAPHQL_SERVER_URL**````
+I recomend create a env.local in your PC and put this url
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+Example:
+NEXT_PUBLIC_GRAPHQL_SERVER_URL:_http://localhost:3000/api/graphql_
+but in a web plataform for example vercel. You need put this variable
+NEXT_PUBLIC_GRAPHQL_SERVER_URL:https://domain.example/api/graphql*
 
-## Learn More
+**3.NEXTAUTH_SECRET**
+You need create a key unique for your app. this is for development and production
+Example:
+NEXTAUTH_SECRET=_cvjWtBySvxBzkKMcHtMj3VNcQW_
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+**4.MONGODB_URI**
+You need create a database for save data from swap coral six
+Example:
+MONGODB_URI:_mongodb+srv://usernamepassword@clusterexample.mongodb.net/?retryWrites=true&w=majority_
