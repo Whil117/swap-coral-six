@@ -27,7 +27,7 @@
     "apollo-server-core": "^3.10.1",
     "apollo-server-micro": "^3.9.0",
     "axios": "^0.26.1",
-    "canvas": "^2.10.1",
+    "canvas": "2.6.1",
     "color-thief-node": "^1.0.4",
     "colorthief": "^2.3.2",
     "dotenv": "^16.0.0",
