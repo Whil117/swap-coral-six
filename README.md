@@ -25,21 +25,22 @@ So This project from Console Spotify has a client id and a client secret
 I recomend create a env.local in your PC and put this url
 
 Example:
-NEXT_PUBLIC_GRAPHQL_SERVER_URL:_http://localhost:3000/api/graphql_
+NEXT*PUBLIC_GRAPHQL_SERVER_URL:\_http://localhost:3000/api/graphql*
 but in a web plataform for example vercel. You need put this variable
 NEXT_PUBLIC_GRAPHQL_SERVER_URL:https://domain.example/api/graphql*
 
 **3.NEXTAUTH_SECRET**
 You need create a key unique for your app. this is for development and production
 Example:
-NEXTAUTH_SECRET=_cvjWtBySvxBzkKMcHtMj3VNcQW_
+NEXTAUTH*SECRET=\_cvjWtBySvxBzkKMcHtMj3VNcQW*
 
 **4.MONGODB_URI**
 You need create a database for save data from swap coral six
 Example:
-MONGODB_URI:_mongodb+srv://usernamepassword@clusterexample.mongodb.net/?retryWrites=true&w=majority_
+MONGODB*URI:\_mongodb+srv://usernamepassword@clusterexample.mongodb.net/?retryWrites=true&w=majority*
 
-##Structure Folders
+## Structure Folders
+
 ![](https://res.cloudinary.com/whil/image/upload/v1668404763/FOLDERS_etamdm.png)
 
 **1.BACKEND GRAPHQL**
