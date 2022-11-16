@@ -1,14 +1,16 @@
 import AtomButton from '@Components/@atoms/AtomButton';
 import AtomIcon from '@Components/@atoms/AtomIcon';
+import AtomImage from '@Components/@atoms/AtomImage';
 import { AtomText } from '@Components/@atoms/AtomText';
 import AtomWrapper from '@Components/@atoms/Atomwrapper';
 import { css } from '@emotion/react';
+import isBackDark from '@Utils/isBlackOrWhite';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
-const Sections = [
+const Sections: SECTIONS[] = [
   {
     id: uuidv4(),
     name: 'Feed',
@@ -57,16 +59,29 @@ const Sections = [
     path: '/public/howworks',
     icon: 'https://res.cloudinary.com/whil/image/upload/v1663363954/document-code_o8g9vx.svg'
   },
+  // {
+  //   id: uuidv4(),
+  //   name: 'Whil',
+  //   type: 'external',
+  //   path: 'https://www.linkedin.com/in/ivangarciawhil117/',
+  //   icon: 'https://res.cloudinary.com/whil/image/upload/v1663364528/whil_qc16xc.svg'
+  // },
   {
     id: uuidv4(),
-    name: 'Whil',
-    type: 'external',
-    path: 'https://www.linkedin.com/in/ivangarciawhil117/',
-    icon: 'https://res.cloudinary.com/whil/image/upload/v1663364528/whil_qc16xc.svg'
+    name: 'Configuration',
+    path: '/credentials',
+    icon: 'https://res.cloudinary.com/whil/image/upload/v1665116741/setting-2_fxtnyo.svg'
   }
 ];
 
-const USERLOGGED = [
+type SECTIONS = {
+  id: string;
+  name: string;
+  path: string;
+  icon: string;
+};
+
+const USERLOGGED: SECTIONS[] = [
   {
     id: uuidv4(),
     name: 'Feed',
@@ -115,17 +130,24 @@ const USERLOGGED = [
     path: '/public/howworks',
     icon: 'https://res.cloudinary.com/whil/image/upload/v1663363954/document-code_o8g9vx.svg'
   },
+  // {
+  //   id: uuidv4(),
+  //   name: 'Social Media',
+  //   type: 'external',
+  //   path: 'https://www.linkedin.com/in/ivangarciawhil117/',
+  //   icon: 'https://res.cloudinary.com/whil/image/upload/v1663364528/whil_qc16xc.svg'
+  // },
   {
     id: uuidv4(),
-    name: 'Whil',
-    type: 'external',
-    path: 'https://www.linkedin.com/in/ivangarciawhil117/',
-    icon: 'https://res.cloudinary.com/whil/image/upload/v1663364528/whil_qc16xc.svg'
+    name: 'Configuration',
+    path: '/credentials',
+    icon: 'https://res.cloudinary.com/whil/image/upload/v1665116741/setting-2_fxtnyo.svg'
   }
 ];
 const OrganismNavbar: FC = () => {
   const router = useRouter();
   const user = useSession();
+
   return (
     <AtomWrapper
       backgroundColor="#191922"
@@ -203,20 +225,16 @@ const OrganismNavbar: FC = () => {
                   justifyContent="flex-start"
                   gap="20px"
                   onClick={() => {
-                    if (section.type === 'external') {
-                      window.open(section.path, '_blank');
-                    } else {
-                      router
-                        .push({
-                          pathname: section.path
-                        })
-                        .then(() => {
-                          document?.getElementById('view')?.scroll({
-                            top: 0,
-                            behavior: 'smooth'
-                          });
+                    router
+                      .push({
+                        pathname: section.path
+                      })
+                      .then(() => {
+                        document?.getElementById('view')?.scroll({
+                          top: 0,
+                          behavior: 'smooth'
                         });
-                    }
+                      });
                   }}
                 >
                   <AtomIcon
@@ -250,20 +268,16 @@ const OrganismNavbar: FC = () => {
                   justifyContent="flex-start"
                   gap="20px"
                   onClick={() => {
-                    if (section.type === 'external') {
-                      window.open(section.path, '_blank');
-                    } else {
-                      router
-                        .push({
-                          pathname: section.path
-                        })
-                        .then(() => {
-                          document?.getElementById('view')?.scroll({
-                            top: 0,
-                            behavior: 'smooth'
-                          });
+                    router
+                      .push({
+                        pathname: section.path
+                      })
+                      .then(() => {
+                        document?.getElementById('view')?.scroll({
+                          top: 0,
+                          behavior: 'smooth'
                         });
-                    }
+                      });
                   }}
                 >
                   <AtomIcon
@@ -286,10 +300,44 @@ const OrganismNavbar: FC = () => {
               ))}
             </>
           )}
-
-          <AtomButton onClick={() => router.push('/credentials')}>
-            Iniciar Sesión
-          </AtomButton>
+          {user.data?.user?.name ? (
+            <AtomWrapper
+              flexDirection="row"
+              alignItems="center"
+              gap="10px"
+              backgroundColor="#1ED760"
+              width="-webkit-fill-available"
+              padding="10px"
+              customCSS={css`
+                border-radius: 15px;
+                /* flex: 1; */
+              `}
+            >
+              <AtomImage
+                src={user.data?.user?.image as string}
+                alt={user.data?.user?.name as string}
+                width="50px"
+                height="50px"
+                borderRadius="15px"
+              />
+              <AtomWrapper>
+                <AtomText
+                  color={isBackDark('#1ED760')}
+                  fontWeight="bold"
+                  fontSize="18px"
+                >
+                  {user.data?.user?.name}
+                </AtomText>
+                <AtomText
+                  color={isBackDark('#1ED760')}
+                  fontWeight="bold"
+                  width="auto"
+                >
+                  Logged in Spotify!
+                </AtomText>
+              </AtomWrapper>
+            </AtomWrapper>
+          ) : null}
         </AtomWrapper>
       </AtomWrapper>
     </AtomWrapper>

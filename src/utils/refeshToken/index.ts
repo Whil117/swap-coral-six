@@ -1,15 +1,24 @@
-import { CONFIG_SPOTIFY } from 'config/spotify';
+import { CLIENT_ID, CLIENT_SECRET } from 'config/spotify';
+import { NextApiRequest } from 'next';
+import SpotifyWebApi from 'spotify-web-api-node';
 
 type SpotifyToken = {
   accessToken: string;
   refreshToken: string;
 };
 
-export default async function refeshToken(token: SpotifyToken) {
+export default async function refeshToken(
+  token: SpotifyToken,
+  req: NextApiRequest
+) {
   try {
-    CONFIG_SPOTIFY.SPOTIFY_API.setAccessToken(token.accessToken);
-    CONFIG_SPOTIFY.SPOTIFY_API.setRefreshToken(token.refreshToken);
-    const data = await CONFIG_SPOTIFY.SPOTIFY_API.refreshAccessToken();
+    const spotifyAPI = new SpotifyWebApi({
+      clientId: req.cookies?.CLIENT_ID ?? CLIENT_ID,
+      clientSecret: req.cookies?.CLIENT_SECRET ?? CLIENT_SECRET
+    });
+    spotifyAPI.setAccessToken(token.accessToken);
+    spotifyAPI.setRefreshToken(token.refreshToken);
+    const data = await spotifyAPI.refreshAccessToken();
     return {
       ...token,
       accessToken: data.body.access_token ?? token.accessToken,

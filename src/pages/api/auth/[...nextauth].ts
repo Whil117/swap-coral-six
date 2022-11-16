@@ -33,11 +33,13 @@ const nextAuthOptions = (req: NextApiRequest, res: NextApiResponse) => {
             accessTokenExpires: (account?.expires_at as number) * 1000
           };
         }
+
         if (Date.now() < token.accessTokenExpires) {
           console.log('[NextAuth]: Token is valid; no need to refresh');
           return token;
+        } else {
+          return await refeshToken(token, req);
         }
-        return await refeshToken(token);
       },
       async session({ session, token }: any) {
         Cookies.set('accessToken', token.accessToken);
