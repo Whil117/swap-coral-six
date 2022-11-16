@@ -111,16 +111,15 @@ const Credentials: NextPageFC<SpotifyAuthProps> = ({ providers }) => {
               Reset Credentials
             </AtomButton>
           </AtomWrapper>
-          <AtomText
-            color="white"
-            textDecoration="underline"
-            onClick={() => setfirst((prev) => !prev)}
-          >
-            {first ? 'Hide Credentials' : 'Show Credentials'}
-          </AtomText>
         </>
-      ) : null}
-
+      ) : null}{' '}
+      <AtomText
+        color="white"
+        textDecoration="underline"
+        onClick={() => setfirst((prev) => !prev)}
+      >
+        {first ? 'Hide Credentials' : 'Show Credentials'}
+      </AtomText>
       {!isUndefined(Cookies.get('CLIENT_ID')) &&
         !isUndefined(Cookies.get('CLIENT_SECRET')) && (
           <AtomWrapper gap="20px">
