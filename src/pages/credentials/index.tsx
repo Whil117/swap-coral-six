@@ -9,6 +9,7 @@ import { isUndefined } from 'lodash';
 import { NextPageFC } from 'next';
 import { getProviders, signIn } from 'next-auth/react';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
 import * as Yup from 'yup';
 
 type SpotifyAuthProps = {
@@ -26,6 +27,7 @@ type SpotifyAuthProps = {
 
 const Credentials: NextPageFC<SpotifyAuthProps> = ({ providers }) => {
   //   const user = useSession();
+  const [first, setfirst] = useState(false);
   const router = useRouter();
   const formik = useFormik({
     initialValues: {
@@ -79,44 +81,73 @@ const Credentials: NextPageFC<SpotifyAuthProps> = ({ providers }) => {
           formik={formik}
           placeholder="CLIENT_SECRET"
         />
-        <AtomButton onClick={formik.submitForm}>Guardar</AtomButton>
+        <AtomButton onClick={formik.submitForm}>Save</AtomButton>
       </AtomWrapper>
-      <AtomWrapper>
-        <AtomText color="white" fontSize="18px" fontWeight="bold">
-          Your Credentials
-        </AtomText>
-        <AtomText color="WHITE">
-          CONFIG_SPOTIFY.CLIENT_ID:{' '}
-          {Cookies.get('CLIENT_ID') ?? '----DEFAULT PROJECT CLIENT_ID----'}
-        </AtomText>
-        <AtomText color="WHITE">
-          CONFIG_SPOTIFY.CLIENT_SECRET:{' '}
-          {Cookies.get('CLIENT_SECRET') ??
-            '----DEFAULT PROJECT CLIENT_SECRET----'}
-        </AtomText>
-      </AtomWrapper>
+      {first ? (
+        <>
+          <AtomWrapper gap="10px">
+            <AtomText color="white" fontSize="18px" fontWeight="bold">
+              Your Credentials
+            </AtomText>
+            <AtomText color="WHITE">
+              CONFIG_SPOTIFY.CLIENT_ID:{' '}
+              {Cookies.get('CLIENT_ID') ?? '----DEFAULT PROJECT CLIENT_ID----'}
+            </AtomText>
+            <AtomText color="WHITE">
+              CONFIG_SPOTIFY.CLIENT_SECRET:{' '}
+              {Cookies.get('CLIENT_SECRET') ??
+                '----DEFAULT PROJECT CLIENT_SECRET----'}
+            </AtomText>
+            <AtomButton
+              backgroundColor="transparent"
+              border="1px solid red"
+              color="red"
+              onClick={() => {
+                Cookies.remove('CLIENT_ID');
+                Cookies.remove('CLIENT_SECRET');
+                router.reload();
+              }}
+            >
+              Reset Credentials
+            </AtomButton>
+          </AtomWrapper>
+          <AtomText
+            color="white"
+            textDecoration="underline"
+            onClick={() => setfirst((prev) => !prev)}
+          >
+            {first ? 'Hide Credentials' : 'Show Credentials'}
+          </AtomText>
+        </>
+      ) : null}
+
       {!isUndefined(Cookies.get('CLIENT_ID')) &&
         !isUndefined(Cookies.get('CLIENT_SECRET')) && (
-          <AtomButton
-            backgroundColor="#1ED760"
-            onClick={() => {
-              signIn(providers?.spotify?.id);
-            }}
-            customCSS={css`
-              border: none;
-              border-radius: 50px;
-              padding: 10px 20px;
-              font-size: 16px;
-              font-weight: bold;
-              cursor: pointer;
-              transition: all 0.3s ease-in-out;
-              &:hover {
-                box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-              }
-            `}
-          >
-            Sing In Spotify
-          </AtomButton>
+          <AtomWrapper gap="20px">
+            <AtomText color="white" fontSize="24px" fontWeight="bold">
+              Spotify is available!
+            </AtomText>
+            <AtomButton
+              backgroundColor="#1ED760"
+              onClick={() => {
+                signIn(providers?.spotify?.id);
+              }}
+              customCSS={css`
+                border: none;
+                border-radius: 50px;
+                padding: 10px 20px;
+                font-size: 16px;
+                font-weight: bold;
+                cursor: pointer;
+                transition: all 0.3s ease-in-out;
+                &:hover {
+                  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+                }
+              `}
+            >
+              Sing In Spotify
+            </AtomButton>
+          </AtomWrapper>
         )}
     </AtomWrapper>
   );
