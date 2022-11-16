@@ -1,8 +1,12 @@
+import Cookies from 'js-cookie';
 import SpotifyWebApi from 'spotify-web-api-node';
 
-export const CLIENT_ID = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID as string;
-export const CLIENT_SECRET = process.env
-  .NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET as string;
+export const CLIENT_ID =
+  Cookies.get('CLIENT_ID') ??
+  (process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID as string);
+export const CLIENT_SECRET =
+  Cookies.get('CLIENT_SECRET') ??
+  (process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET as string);
 export const AUTH_SECRET = process.env.NEXTAUTH_SECRET as string;
 
 const scopes = [
