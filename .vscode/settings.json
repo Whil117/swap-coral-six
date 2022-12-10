@@ -18,5 +18,6 @@
         "titleBar.inactiveBackground": "#0172ff99",
         "titleBar.inactiveForeground": "#e7e7e799"
     },
-    "peacock.color": "#0172ff"
+    "peacock.color": "#0172ff",
+    "nuxt.isNuxtApp": false
 }

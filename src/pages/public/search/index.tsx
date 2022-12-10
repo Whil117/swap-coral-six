@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { useQuery } from '@apollo/client';
 import { SEARCHQUERY } from '@Apollo/client/query/Search';
 import AtomCard from '@Components/@atoms/AtomCard';
@@ -8,6 +9,7 @@ import AtomWrapper from '@Components/@atoms/Atomwrapper';
 import { css } from '@emotion/react';
 import { COLORS_ATOM } from '@Hooks/useColor';
 import useTimer, { loadTimerAtom } from '@Hooks/useTimer';
+import useTimerHook from '@Hooks/useTimerHook';
 import { IQueryFilter } from '@Types/index';
 import { atom, useAtom, useAtomValue } from 'jotai';
 import { NextPageFCProps } from 'next';
@@ -30,6 +32,11 @@ const SearchPage: NextPageFCProps = () => {
     }
   });
 
+  const { setTimer: SETTER } = useTimerHook({
+    callback: () => {
+      console.log('TEST');
+    }
+  });
   const { data, loading } = useQuery<IQueryFilter<'Search'>>(SEARCHQUERY, {
     skip: !search,
     variables: {
@@ -76,8 +83,10 @@ const SearchPage: NextPageFCProps = () => {
                 customCSS={css`
                   width: 100%;
                 `}
+                value={word}
                 onChange={(e) => {
                   setTimer(0);
+                  SETTER(0);
                   setword(e.target.value);
                 }}
               />

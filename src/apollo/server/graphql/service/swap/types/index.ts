@@ -10,6 +10,6 @@ export type GlobalProps = {
 };
 
 export type ContextRoot = {
-  spotifyAPIToken: () => string;
+  spotifyAPIToken: () => Promise<string>;
   req: unknown;
 };
