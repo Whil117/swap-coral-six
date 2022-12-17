@@ -119,7 +119,7 @@ const ButtonStyled = styled.button<AtomButtonTypes>`
   ${({ disabled }) =>
     disabled &&
     css`
-      background-color: #e6e6e6;
+      background-color: #e7e7e7;
       color: #7e7e7e;
     `}
 
